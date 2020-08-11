@@ -4,6 +4,9 @@ import { PostData } from './post/post.component';
 import { Component } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import {Feed} from './feed.service';
+
+
 
 @Component({
   selector: 'wm-feed',
@@ -20,4 +23,17 @@ export class FeedComponent extends DatabaseGroup<PostData> {
 
     this.feed$ = this.query( qf => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc') );
   }
+
+  card: Feed = {
+    username: "Wizdm.io",
+    moreVert: "Compassionate development",
+    avatar: "https://octodex.github.com/images/saritocat.png",
+    userImage:
+      "https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80",
+    color: "blue",
+    postImage: "https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80",
+    postMsg:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet nec ullamcorper sit amet risus nullam eget felis."
+  };
+
 }

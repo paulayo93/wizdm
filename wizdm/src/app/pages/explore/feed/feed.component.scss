@@ -1,4 +1,21 @@
-:host {
-  display: flex;
-  flex-direction: column;
+// :host {
+//   display: flex;
+//   flex-direction: column;
+// }
+section {
+  padding: 32px;
+  width: 100%;
+  cursor: pointer;
+  // margin-top: 24px;
+
+  .wm-card {
+    max-width: 400px;
+    min-height: 200px;
+
+    img {
+      width: 100%;
+      max-width: 100%;
+      display: block;
+    }
+  }
 }
