@@ -1,21 +1,31 @@
-<ng-container *ngIf="card">
-	<section fxLayout="column" fxLayoutAlign="center center">
+<ng-container *ngIf="">
+	<div fxLayout="column" fxLayoutAlign="center center">
 		<mat-card class="wm-card mat-elevation-z24">
 			<mat-card-header>
 				<div mat-card-avatar>
-					<wm-avatar [src]="card.avatar"></wm-avatar>
+					<wm-avatar [src]=""></wm-avatar>
 				</div>
 				<mat-card-title>{{card.username}}
 					<mat-card-subtitle>
-            <div>59 mins</div>
+
+						<!-- display formatted timedate feed was publish -->
+						<ng-container>
+							<span>59 mins</span>
+						</ng-container>
+
+						<!-- display view status either public or ? -->
+						<ng-container>
+							 <!-- Public status Icon -->
+							<wm-icon [src=""></wm-icon>
+						</ng-container>
             </mat-card-subtitle>
         </mat-card-title>
 			</mat-card-header>
 			<mat-card-content>
         <div>
-	<p>{{card.postMsg}}</p>
+	<p [wm-readme]=""></p>
         </div>
-				<img  mat-card-image [src]="card.postImage" alt="Wizdm Photo">
+				<img  mat-card-image [src]="" alt="Wizdm Photo">
 		</mat-card-content>
 				<mat-card-actions fxLayout="row" fxLayoutAlign="start end">
 					<button  mat-button>
@@ -32,7 +42,7 @@
 		</mat-card>
 
 
-	</section>
+	</div>
 
 </ng-container>
 
