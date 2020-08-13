@@ -1,7 +1,6 @@
 import { DatabaseGroup, QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
 import { DatabaseService } from '@wizdm/connect/database';
 import { Component } from '@angular/core';
-import { tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import {FeedData} from './feed-types';
 
