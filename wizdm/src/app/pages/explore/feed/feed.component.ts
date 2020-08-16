@@ -1,10 +1,13 @@
-import { DatabaseGroup, QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
-import { DatabaseService } from '@wizdm/connect/database';
 import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import {FeedData} from './feed-types';
-
-
+import { FeedData } from './feed-types';
+import { QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
+import { DatabaseGroup } from '@wizdm/connect/database/collection/group';
+import { DatabaseService } from '@wizdm/connect/database';
+import { Observable, BehaviorSubject } from 'rxjs';
+import { where, orderBy, limit } from '@wizdm/connect/database/collection/operators';
+import { map, startWith, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
+import { UserProfile, UserData } from 'app/utils/user-profile';
+import { EmojiRegex } from '@wizdm/emoji/utils';
 
 @Component({
   selector: 'wm-feed',
@@ -13,14 +16,27 @@ import {FeedData} from './feed-types';
 })
 export class FeedComponent extends DatabaseGroup<FeedData> {
 
-  readonly feed$: Observable<QueryDocumentSnapshot<FeedData>[]>;
+  readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
+  // feedRef = this.db.collection('feed');
+  public feedData: DatabaseGroup<FeedData>[];
 
-  constructor(db: DatabaseService) { 
-    
+  private reload$ = new BehaviorSubject<void>(null);
+  public loading: boolean = true;
+
+  public isPublic: boolean = false;
+
+  public get me(): string { return this.user.uid; }
+
+  constructor(db: DatabaseService, private user: UserProfile<UserData>) {
+
     super(db, 'feed');
 
-    this.feed$ = this.query( qf => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc') );
+    this.feeds$ = this.query(qf => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc'));
+
+
   }
+
+
 
   // card: Feed = {
   //   username: "Wizdm.io",
