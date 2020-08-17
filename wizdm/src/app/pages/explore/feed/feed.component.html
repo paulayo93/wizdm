@@ -1,48 +1,53 @@
-<!-- <ng-container *ngIf=""> -->
-  <div fxLayout="column" fxLayoutAlign="center center">
-    <mat-card class="wm-card mat-elevation-z24">
-      <mat-card-header>
-        <div mat-card-avatar>
-          <wm-avatar ></wm-avatar>
-        </div>
-        <mat-card-title >
-          <mat-card-subtitle>
-            <!-- display formatted timedate feed was publish -->
-            <ng-container>
-              <span>59 mins</span>
-            </ng-container>
+<ng-container *ngIf="feeds$ | async as feeds">
+  <ng-template *ngFor="let feed of feeds">
+    <div fxLayout="column" fxLayoutAlign="center center">
+      <mat-card *ngIf="feed" class="wm-card mat-elevation-z24">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <wm-avatar ></wm-avatar>
+          </div>
+          <mat-card-title >
+            <mat-card-subtitle>
+              <!-- display formatted timedate feed was publish -->
+              <ng-container *ngIf="feed">
+                <span>59 mins</span>
+              </ng-container>
+  
+              <!-- display view status either public or ? -->
+              <ng-container *ngIf="feed">
+                <!-- Public status Icon -->
+                <wm-icon ></wm-icon>
+              </ng-container>
+            </mat-card-subtitle>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div>
+            <p [wm-readme]=""></p>
+            <p [wm-readme]=""></p>
+          </div>
+          <img mat-card-image [src]="" alt="Wizdm Photo" />
+        </mat-card-content>
+        <mat-card-actions fxLayout="row" fxLayoutAlign="start end">
+          <button mat-button>
+            <wm-icon></wm-icon>
+            Like</button
+          >
+          <button mat-button>
+            <wm-icon [icon]=""></wm-icon>
+            Comment</button
+          >
+          <button mat-button>
+            <wm-icon>like</wm-icon>
+            Share</button
+          >
+        </mat-card-actions>
+      </mat-card>
+    </div>
 
-            <!-- display view status either public or ? -->
-            <ng-container>
-              <!-- Public status Icon -->
-              <wm-icon [src=""></wm-icon>
-            </ng-container>
-          </mat-card-subtitle>
-        </mat-card-title>
-      </mat-card-header>
-      <mat-card-content>
-        <div>
-          <p [wm-readme]=""></p>
-        </div>
-        <img mat-card-image [src]="" alt="Wizdm Photo" />
-      </mat-card-content>
-      <mat-card-actions fxLayout="row" fxLayoutAlign="start end">
-        <button mat-button>
-          <wm-icon></wm-icon>
-          Like</button
-        >
-        <button mat-button>
-          <wm-icon [icon]=""></wm-icon>
-          Comment</button
-        >
-        <button mat-button>
-          <wm-icon>like</wm-icon>
-          Share</button
-        >
-      </mat-card-actions>
-    </mat-card>
-  </div>
-<!-- </ng-container> -->
+  </ng-template>
+ 
+</ng-container>
 
 <!-- Localized content -->
 <!--ng-container *wmContent="let msgs select 'feed'"-->

@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
 import { FeedData } from './feed-types';
-import { QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
+import { QueryDocumentSnapshot, QueryFn, DatabaseCollection } from '@wizdm/connect/database/collection';
 import { DatabaseGroup } from '@wizdm/connect/database/collection/group';
 import { DatabaseService } from '@wizdm/connect/database';
 import { Observable, BehaviorSubject } from 'rxjs';
-import { where, orderBy, limit } from '@wizdm/connect/database/collection/operators';
+import { get, data } from '@wizdm/connect/database/collection/operators';
 import { map, startWith, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
 import { UserProfile, UserData } from 'app/utils/user-profile';
 import { EmojiRegex } from '@wizdm/emoji/utils';
@@ -17,13 +17,9 @@ import { EmojiRegex } from '@wizdm/emoji/utils';
 export class FeedComponent extends DatabaseGroup<FeedData> {
 
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
-  // feedRef = this.db.collection('feed');
-  public feedData: DatabaseGroup<FeedData>[];
 
-  private reload$ = new BehaviorSubject<void>(null);
+
   public loading: boolean = true;
-
-  public isPublic: boolean = false;
 
   public get me(): string { return this.user.uid; }
 
@@ -31,13 +27,13 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
     super(db, 'feed');
 
-    this.feeds$ = this.query(qf => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc'));
-
+    this.feeds$ = this.query( (qf) => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc'))
 
   }
 
 
-
+    // Streams new data as an observable
+    
   // card: Feed = {
   //   username: "Wizdm.io",
   //   moreVert: "Compassionate development",
