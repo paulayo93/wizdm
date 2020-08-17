@@ -2,18 +2,18 @@
   "button" : { 
     "comment": {
       "label": "Comment",
-      "icon": "",
+      "icon": "fas:fa-comments",
       "hint": "Write comment"
     },
     "like": {
       "label": "Like",
-      "icon": "",
+      "icon": "fas:fa-thumbs-up",
       "hint": "Express how you feel"
     }, 
     "share": {
       "label": "Share",
-      "icon": "",
-      "hint": "Share to loved ones & friends"
+      "icon": "fas:fa-share",
+      "hint": "Share with loved ones & friends"
     }
   }
   
