@@ -1,39 +1,58 @@
-import { Component } from '@angular/core';
-import { FeedData } from './feed-types';
-import { QueryDocumentSnapshot, QueryFn, DatabaseCollection } from '@wizdm/connect/database/collection';
-import { DatabaseGroup } from '@wizdm/connect/database/collection/group';
-import { DatabaseService } from '@wizdm/connect/database';
-import { Observable, BehaviorSubject } from 'rxjs';
-import { get, data } from '@wizdm/connect/database/collection/operators';
-import { map, startWith, switchMap, shareReplay, distinctUntilChanged } from 'rxjs/operators';
-import { UserProfile, UserData } from 'app/utils/user-profile';
-import { EmojiRegex } from '@wizdm/emoji/utils';
+import { Component } from "@angular/core";
+import { FeedData } from "./feed-types";
+import {
+  QueryDocumentSnapshot,
+  QueryFn,
+  DatabaseCollection,
+} from "@wizdm/connect/database/collection";
+import { DatabaseGroup } from "@wizdm/connect/database/collection/group";
+import { DatabaseService } from "@wizdm/connect/database";
+import { Observable, BehaviorSubject } from "rxjs";
+import { get, data } from "@wizdm/connect/database/collection/operators";
+import {
+  map,
+  startWith,
+  switchMap,
+  shareReplay,
+  distinctUntilChanged,
+} from "rxjs/operators";
+import { UserProfile, UserData } from "app/utils/user-profile";
+import { EmojiRegex } from "@wizdm/emoji/utils";
 
 @Component({
-  selector: 'wm-feed',
-  templateUrl: './feed.component.html',
-  styleUrls: ['./feed.component.scss']
+  selector: "wm-feed",
+  templateUrl: "./feed.component.html",
+  styleUrls: ["./feed.component.scss"],
 })
 export class FeedComponent extends DatabaseGroup<FeedData> {
-
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
-
+  public feedsData;
 
   public loading: boolean = true;
 
-  public get me(): string { return this.user.uid; }
+  public get me(): string {
+    return this.user.uid;
+  }
 
   constructor(db: DatabaseService, private user: UserProfile<UserData>) {
+    super(db, "feed");
 
-    super(db, 'feed');
+    console.log("Get user post feed...");
 
-    this.feeds$ = this.query( (qf) => qf.where('tags', 'array-contains', 'public').orderBy('created', 'desc'))
+    this.feeds$ = this.query((qf) =>
+      qf.where("tags", "array-contains", "public").orderBy("created", "desc")
+    ).pipe(
+      source => this.feedsData = source
+
+    )
+    console.log(this.feedsData);
+
+
 
   }
 
+  // Streams new data as an observable
 
-    // Streams new data as an observable
-    
   // card: Feed = {
   //   username: "Wizdm.io",
   //   moreVert: "Compassionate development",
@@ -45,5 +64,4 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
   //   postMsg:
   //     "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Aliquet nec ullamcorper sit amet risus nullam eget felis."
   // };
-
 }

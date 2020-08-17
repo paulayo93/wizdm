@@ -1,3 +1,20 @@
 {
+  "button" : { 
+    "comment": {
+      "label": "Comment",
+      "icon": "",
+      "hint": "Write comment"
+    },
+    "like": {
+      "label": "Like",
+      "icon": "",
+      "hint": "Express how you feel"
+    }, 
+    "share": {
+      "label": "Share",
+      "icon": "",
+      "hint": "Share to loved ones & friends"
+    }
+  }
   
 }
