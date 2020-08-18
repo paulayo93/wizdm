@@ -2,7 +2,7 @@
   "button" : { 
     "comment": {
       "label": "Comment",
-      "icon": "fas:fa-comments",
+      "icon": "far:fa-comments",
       "hint": "Write comment"
     },
     "like": {
@@ -12,7 +12,7 @@
     }, 
     "share": {
       "label": "Share",
-      "icon": "fas:fa-share",
+      "icon": "fas:fa-external-link-alt",
       "hint": "Share with loved ones & friends"
     }
   }

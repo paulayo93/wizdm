@@ -1,7 +1,7 @@
 import { DatabaseDocument, DocumentData } from '@wizdm/connect/database/document';
 
 export interface FeedData extends DocumentData {
-    feedData?: FeedData;
+    feedData?: FeedPost;
 }
 
 export interface FeedPost{

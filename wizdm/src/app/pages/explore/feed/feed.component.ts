@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FeedData } from "./feed-types";
+import { FeedData, FeedPost } from "./feed-types";
 import {
   QueryDocumentSnapshot,
   QueryFn,
@@ -26,7 +26,7 @@ import { EmojiRegex } from "@wizdm/emoji/utils";
 })
 export class FeedComponent extends DatabaseGroup<FeedData> {
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
-  public feedsData;
+  private feedList: Observable<FeedPost[]>
 
   public loading: boolean = true;
 
@@ -39,16 +39,12 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
     console.log("Get user post feed...");
 
-    this.feeds$ = this.query((qf) =>
-      qf.where("tags", "array-contains", "public").orderBy("created", "desc")
-    ).pipe(
-      source => this.feedsData = source
+    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc"))
+
+    const feedDisplay$ = this.feeds$.pipe(
 
     )
-    console.log(this.feedsData);
-
-
-
+    
   }
 
   // Streams new data as an observable
