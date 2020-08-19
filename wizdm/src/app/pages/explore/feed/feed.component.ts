@@ -25,8 +25,10 @@ import { EmojiRegex } from "@wizdm/emoji/utils";
   styleUrls: ["./feed.component.scss"],
 })
 export class FeedComponent extends DatabaseGroup<FeedData> {
+  
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
   private feedList: Observable<FeedPost[]>
+  public feedQry;
 
   public loading: boolean = true;
 
@@ -39,12 +41,14 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
     console.log("Get user post feed...");
 
-    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc"))
+    // query the feed subcollection using the Query and QueryDocumentSnapshot endpoint
+    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc").get('post'))
 
     const feedDisplay$ = this.feeds$.pipe(
+      // map(data => this.feedQry = data)    
+      )
 
-    )
-    
+    console.log(this.feedQry);
   }
 
   // Streams new data as an observable
