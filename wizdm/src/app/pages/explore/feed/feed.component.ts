@@ -44,6 +44,11 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     // query the feed subcollection using the Query and QueryDocumentSnapshot endpoint
     this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc")/*.get({'post': 'source'})*/)
 
+    /**
+     * check where the document key id is `post`
+     * Get collection data with data id: post
+     */
+
     const feedDisplay$ = this.feeds$.pipe(
       switchMap(data => this.feedQry = data)    
       )
