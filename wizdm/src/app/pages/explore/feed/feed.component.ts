@@ -8,7 +8,7 @@ import {
 import { DatabaseGroup } from "@wizdm/connect/database/collection/group";
 import { DatabaseService } from "@wizdm/connect/database";
 import { Observable, BehaviorSubject } from "rxjs";
-import { get, data } from "@wizdm/connect/database/collection/operators";
+import { get, data, docs } from "@wizdm/connect/database/collection/operators";
 import {
   map,
   startWith,
@@ -25,10 +25,11 @@ import { EmojiRegex } from "@wizdm/emoji/utils";
   styleUrls: ["./feed.component.scss"],
 })
 export class FeedComponent extends DatabaseGroup<FeedData> {
-  
+
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
   private feedList: Observable<FeedPost[]>
   public feedQry;
+  postFeed;
 
   public loading: boolean = true;
 
@@ -50,10 +51,15 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
      */
 
     const feedDisplay$ = this.feeds$.pipe(
-      switchMap(data => this.feedQry = data)    
+
+      // switchMap(data => this.feedQry = this.db.collectionGroup<FeedData>(data.filter(data => data.data()))
       )
 
+      map(data => this.feedQry = data);
+
     console.log(this.feedQry);
+
+    this.postFeed = this.db.collectionGroup('post');
   }
 
   // Streams new data as an observable
