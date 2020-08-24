@@ -59,7 +59,8 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
     console.log(this.feedQry);
 
-    this.postFeed = this.db.collectionGroup('post');
+    this.postFeed = this.db.collectionGroup('feed');
+    console.log(this.postFeed)
   }
 
   // Streams new data as an observable
