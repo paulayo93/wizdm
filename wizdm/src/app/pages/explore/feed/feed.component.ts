@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FeedData, FeedPost } from "./feed-types";
+import { FeedData } from "./feed-types";
 import {
   QueryDocumentSnapshot,
   QueryFn,
@@ -11,8 +11,6 @@ import { Observable, BehaviorSubject } from "rxjs";
 import { get, data, docs } from "@wizdm/connect/database/collection/operators";
 import {
   map,
-  startWith,
-  switchMap,
   shareReplay,
   distinctUntilChanged,
 } from "rxjs/operators";
@@ -27,7 +25,8 @@ import { EmojiRegex } from "@wizdm/emoji/utils";
 export class FeedComponent extends DatabaseGroup<FeedData> {
 
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
-  private feedList: Observable<FeedPost[]>
+  private feedList$: Observable<FeedData[]>
+  // public data$: Observable<ConversationData>;
   public feedQry;
   postFeed;
 
@@ -43,24 +42,24 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     console.log("Get user post feed...");
 
     // query the feed subcollection using the Query and QueryDocumentSnapshot endpoint
-    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc")/*.get({'post': 'source'})*/)
+    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc"))
 
     /**
      * check where the document key id is `post`
      * Get collection data with data id: post
      */
 
+    // const feedDisplay$ = this.feeds$.pipe(
+
+    //   // switchMap(data => this.feedQry = this.db.collectionGroup<FeedData>(data.filter(data => data.data()))
+    //   )    
+
     const feedDisplay$ = this.feeds$.pipe(
 
-      // switchMap(data => this.feedQry = this.db.collectionGroup<FeedData>(data.filter(data => data.data()))
+      map(data => data),
+      shareReplay(1)
       )
 
-      map(data => this.feedQry = data);
-
-    console.log(this.feedQry);
-
-    this.postFeed = this.db.collectionGroup('feed');
-    console.log(this.postFeed)
   }
 
   // Streams new data as an observable
