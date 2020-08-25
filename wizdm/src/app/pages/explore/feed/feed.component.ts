@@ -8,7 +8,7 @@ import {
 import { DatabaseGroup } from "@wizdm/connect/database/collection/group";
 import { DatabaseService } from "@wizdm/connect/database";
 import { Observable, BehaviorSubject } from "rxjs";
-import { get, data, docs } from "@wizdm/connect/database/collection/operators";
+import { get, data, docs, snap } from "@wizdm/connect/database/collection/operators";
 import {
   map,
   shareReplay,
@@ -26,7 +26,7 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
   readonly feeds$: Observable<QueryDocumentSnapshot<FeedData>[]>;
   private feedList$: Observable<FeedData[]>
-  // public data$: Observable<ConversationData>;
+  public data: FeedData;
   public feedQry;
   postFeed;
 
@@ -41,8 +41,9 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
 
     console.log("Get user post feed...");
 
-    // query the feed subcollection using the Query and QueryDocumentSnapshot endpoint
+    // query the feed subcollection using the Collection Group Query and QueryDocumentSnapshot endpoint
     this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc"))
+    console.log(this.feeds$);
 
     /**
      * check where the document key id is `post`
@@ -55,10 +56,20 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     //   )    
 
     const feedDisplay$ = this.feeds$.pipe(
-
+      
       map(data => data),
       shareReplay(1)
-      )
+      ).subscribe({ 
+        next(data) {
+          console.log(data);
+        },
+        error(msg) {
+          console.log('Error Getting Data: ', msg);
+        }
+      });
+
+      console.log(feedDisplay$);
+      console.log(this.data);
 
   }
 
