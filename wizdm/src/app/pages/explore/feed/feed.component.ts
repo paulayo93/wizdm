@@ -13,6 +13,7 @@ import {
   map,
   shareReplay,
   distinctUntilChanged,
+  tap,
 } from "rxjs/operators";
 import { UserProfile, UserData } from "app/utils/user-profile";
 import { EmojiRegex } from "@wizdm/emoji/utils";
@@ -42,7 +43,8 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     console.log("Get user post feed...");
 
     // query the feed subcollection using the Collection Group Query and QueryDocumentSnapshot endpoint
-    this.feeds$ = this.query((qf?: FeedData) => qf.where("tags", "array-contains", "public").orderBy("created", "desc"))
+    this.feeds$ = this.query(qf => qf.where("tags", "array-contains", "public").orderBy("created", "desc")).pipe( tap(feed => console.log(feed) ) )
+    
     console.log(this.feeds$);
 
     /**
@@ -55,21 +57,21 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     //   // switchMap(data => this.feedQry = this.db.collectionGroup<FeedData>(data.filter(data => data.data()))
     //   )    
 
-    const feedDisplay$ = this.feeds$.pipe(
+    // const feedDisplay$ = this.feeds$.pipe(
       
-      map(data => data),
-      shareReplay(1)
-      ).subscribe({ 
-        next(data) {
-          console.log(data);
-        },
-        error(msg) {
-          console.log('Error Getting Data: ', msg);
-        }
-      });
+    //   map(data => data),
+    //   shareReplay(1)
+    //   ).subscribe({ 
+    //     next(data) {
+    //       console.log(data);
+    //     },
+    //     error(msg) {
+    //       console.log('Error Getting Data: ', msg);
+    //     }
+    //   });
 
-      console.log(feedDisplay$);
-      console.log(this.data);
+    //   console.log(feedDisplay$);
+    //   console.log(this.data);
 
   }
 
