@@ -1,24 +1,3 @@
-<<<<<<< HEAD
-import { Component } from "@angular/core";
-import { FeedData } from "./feed-types";
-import {
-  QueryDocumentSnapshot,
-  QueryFn,
-  DatabaseCollection,
-} from "@wizdm/connect/database/collection";
-import { DatabaseGroup } from "@wizdm/connect/database/collection/group";
-import { DatabaseService } from "@wizdm/connect/database";
-import { Observable, BehaviorSubject } from "rxjs";
-import { get, data, docs, snap } from "@wizdm/connect/database/collection/operators";
-import {
-  map,
-  shareReplay,
-  distinctUntilChanged,
-  tap,
-} from "rxjs/operators";
-import { UserProfile, UserData } from "app/utils/user-profile";
-import { EmojiRegex } from "@wizdm/emoji/utils";
-=======
 import { query, stream, onSnapshot, where, orderBy, limit, endBefore, docs, snap } from '@wizdm/connect/database/collection/operators';
 import { DatabaseGroup, QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
 import { DatabaseService } from '@wizdm/connect/database';
@@ -26,7 +5,6 @@ import { PostData } from './post/post.component';
 import { Component } from '@angular/core';
 import { filter, take, map, expand, tap } from 'rxjs/operators';
 import { Observable } from 'rxjs';
->>>>>>> 6dd70743... feed$ observable examples
 
 @Component({
   selector: "wm-feed",
@@ -83,8 +61,6 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
     //   console.log(feedDisplay$);
     //   console.log(this.data);
 
-<<<<<<< HEAD
-=======
     /** 
      * This is the simplest query for all the public posts. THe problem of this approach is that you'll get the full list of all posts
      * updated every time a new post comes up (and dont forget we pay firestore for every document read). 
@@ -190,7 +166,6 @@ export class FeedComponent extends DatabaseGroup<FeedData> {
         ))
       )
     );
->>>>>>> 6dd70743... feed$ observable examples
   }
 
   // Streams new data as an observable
