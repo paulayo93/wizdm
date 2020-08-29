@@ -14,6 +14,11 @@ import { IconModule } from '@wizdm/elements/icon';
 import { FeedbackComponent } from './feedback.component';
 
 @NgModule({
+
+  providers: [ { provide: 'dialog', useValue: FeedbackComponent }],
+
+  declarations: [ FeedbackComponent ],
+
   imports: [
     CommonModule,
     RouterModule,
@@ -26,9 +31,9 @@ import { FeedbackComponent } from './feedback.component';
     ContentModule,
     RedirectModule,
     DialogModule,
-    IconModule
-  ],
-  declarations: [ FeedbackComponent ],
-  exports: [ FeedbackComponent ]
+    IconModule,
+    // Initialize the doorbell service
+    DoorbellModule.init(doorbell)
+  ]
 })
 export class FeedbackModule { }

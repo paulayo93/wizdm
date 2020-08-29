@@ -11,7 +11,7 @@ import { ContentRouterModule, RoutesWithContent } from '@wizdm/content';
 import { FeedComponent } from './feed.component';
 import { AvatarModule } from '@wizdm/elements/avatar';
 import { ReadmeModule } from '@wizdm/readme';
-// import { PostModule } from './post/post.module';
+import { PostModule } from './post/post.module';
 
 const routes: RoutesWithContent = [
   {
@@ -34,7 +34,7 @@ const routes: RoutesWithContent = [
     ActionbarModule,
     AvatarModule,
     ReadmeModule,
-    // PostModule,
+    PostModule,
     ContentRouterModule.forChild(routes)
   ]
 })
