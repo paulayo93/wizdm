@@ -7,15 +7,7 @@ import { Observable, BehaviorSubject, merge } from 'rxjs';
 import { DatabaseService } from '@wizdm/connect/database';
 import { AuthService } from '@wizdm/connect/auth';
 import { $animations } from './post.animations';
-
-export interface PostData extends DocumentData {
-  channel?: string;
-  title?  : string;
-  text?   : string; 
-  photo?  : string;
-  author? : string; 
-  tags?   : string[]; 
-};
+import { PostData } from '../feed-types';
 
 @Component({
   selector: 'wm-post',

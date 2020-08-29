@@ -8,10 +8,13 @@ export interface FeedData extends DocumentData {
   tags?: string[];
 }
 
-// export interface FeedPost {
-//   title?: string;
-//   text?: string;
-//   photo?: string;
-//   author?: string;
-//   tags?: string[];
-// }
+
+export interface PostData extends DocumentData {
+  channel?: string;
+  title?  : string;
+  text?   : string; 
+  photo?  : string;
+  author? : string; 
+  tags?   : string[]; 
+};
+
