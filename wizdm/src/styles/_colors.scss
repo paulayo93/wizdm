@@ -1,21 +1,22 @@
 
 @mixin wm-theme-colors($theme, $props: ('color', 'background-color', 'border-color', 'stroke', 'fill')) {
 
-  $background: map-get($theme, background);
-  $foreground: map-get($theme, foreground);
+  $background: map-get($theme, 'background');
+  $foreground: map-get($theme, 'foreground');
 
-  .wm-theme-colors {
+  //.wm-theme-colors {
 
     // Styles the text color
-    &.text-color, .text-color { color: map-get($foreground, text); }
+    .text-color { color: map-get($foreground, text); }
 
     // Styles the background color
-    &.background-color, .background-color { background-color: map-get($background, background); }
+    .background-color { background-color: map-get($background, 'background'); }
 
-    @each $prop in $props {
+    // Styles the background on hover as for active items
+    .background-active { cursor: pointer; &:hover { background-color: mat-color($background, 'hover'); } }
 
-      &.#{$prop}-disabled, .#{$prop}-disabled { #{$prop}: map-get($foreground, disabled); }
-    }
+    // Styles the given property for disabled color
+    @each $prop in $props { .#{$prop}-disabled { #{$prop}: map-get($foreground, 'disabled'); } }
 
     // Styles the theme palettes
     @each $color in ('primary', 'accent', 'warn') {
@@ -23,11 +24,13 @@
       $palette: map-get($theme, #{$color});
 
       // Loops on each palette
-      &[color=#{$color}], [color=#{$color}], &.#{$color}, .#{$color}, &.mat-#{$color}, .mat-#{$color} {
+      [color=#{$color}], .#{$color}, .mat-#{$color} {
 
         // Styles a general selection 
         &[selected=true], &.selected { 
-          background-color: mat-color($palette, lighter, 0.5);
+
+          background-color: mat-color($background, 'selected-button');
+          //color: mat-color($foreground, 'secondary-text');
         }
 
         // Loops on each palette's color tone
@@ -50,6 +53,6 @@
         }
       }
     }
-  }
+  //}
 }
 

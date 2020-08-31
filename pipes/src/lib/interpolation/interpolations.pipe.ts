@@ -12,11 +12,8 @@ export class PluckPipe implements PipeTransform {
 
     return key.split(/[.\/]/).reduce( (value, key) => { 
 
-      if(value === null || value === undefined) {
-        return defaultValue;
-      }
+      return (value[key] !== undefined) ? value[key] : defaultValue;
 
-      return value[key];
     }, value);
   }
 }

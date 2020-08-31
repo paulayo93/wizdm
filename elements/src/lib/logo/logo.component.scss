@@ -3,14 +3,18 @@
   
   display: inline-flex;
   vertical-align: text-bottom;
-  cursor: pointer;
   outline: none;
+
+  // Disables events on the element...
+  pointer-events: none;
+
+  //...to have them fired only from the logo (and not from the text)
+  svg, img { cursor: pointer; pointer-events: all; }
   
-  &[inline="true"] {
+  // Inlines the logo by resizing it down to 1.5em
+  &[inline="true"] svg { width: 1.5em; height: 1.5em; }
 
-    svg { width: 1.5em; height: 1.5em; }
-  }
-
+  // Animates the logo
   &.animate {
 
     path:nth-of-type(3) {

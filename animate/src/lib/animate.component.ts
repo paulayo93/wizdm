@@ -1,6 +1,6 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, HostBinding, HostListener, ElementRef } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, HostBinding, HostListener, ElementRef, Renderer2 } from '@angular/core';
+import { startWith, map, takeWhile, delay, distinctUntilChanged } from 'rxjs/operators';
 import { coerceBooleanProperty, coerceNumberProperty } from '@angular/cdk/coercion';
-import { startWith, filter, takeWhile, delay } from 'rxjs/operators';
 import { Subject, Subscription } from 'rxjs';
 import { trigger } from '@angular/animations';
 import { AnimateService } from './animate.service';
@@ -8,6 +8,7 @@ import { AnimateService } from './animate.service';
 import { beat, bounce, headShake, heartBeat, pulse, rubberBand, shake, swing, wobble, jello, tada, flip } from './attention-seekers';
 import { bumpIn, bounceIn, fadeIn, flipIn, jackInTheBox, landing, rollIn, zoomIn } from './entrances';
 import { bounceOut, fadeOut, hinge, rollOut, zoomOut } from './exits';
+import { state, style } from '@angular/animations';
 
 export type wmAnimateSpeed = 'slower'|'slow'|'normal'|'fast'|'faster';
 export type wmAnimations = 
@@ -16,18 +17,22 @@ export type wmAnimations =
   // Entrances
   'bumpIn'|'bounceIn'|'bounceInDown'|'bounceInLeft'|'bounceInUp'|'bounceInRight'|'fadeIn'|'fadeInRight'|'fadeInLeft'|'fadeInUp'|'fadeInDown'|'flipInX'|'flipInY'|'jackInTheBox'|'landing'|'rollIn'|'zoomIn'|'zoomInDown'|'zoomInLeft'|'zoomInUp'|'zoomInRight'|
   // Exits
-  'bounceOut'|'bounceOutDown'|'bounceOutUp'|'bounceOutRight'|'bounceOutLeft'|'fadeOut'|'fadeOutRight'|'fadeOutLeft'|'fadeOutDown'|'fadeOutUp'|'hinge'|'rollOut'|'zoomOut'|'zoomOutDown'|'zoomOutRight'|'zoomOutUp'|'zoomOutLeft';
+  'bounceOut'|'bounceOutDown'|'bounceOutUp'|'bounceOutRight'|'bounceOutLeft'|'fadeOut'|'fadeOutRight'|'fadeOutLeft'|'fadeOutDown'|'fadeOutUp'|'hinge'|'rollOut'|'zoomOut'|'zoomOutDown'|'zoomOutRight'|'zoomOutUp'|'zoomOutLeft'|
+  // None
+  'none';
 
 @Component({
- selector: '[wmAnimate]',
- template: '<ng-content></ng-content>',
- animations: [ trigger('animate', [
-  // Attention seekers
-  ...beat,...bounce,...flip,...headShake,...heartBeat,...jello,...pulse,...rubberBand,...shake,...swing,...tada,...wobble,
-  // Entrances
- ...bumpIn,...bounceIn,...fadeIn,...flipIn,...jackInTheBox,...landing,...rollIn,...zoomIn,
-  // Exits
- ...bounceOut,...fadeOut,...hinge,...rollOut,...zoomOut
+  selector: '[wmAnimate]',
+  template: '<ng-content></ng-content>',
+  animations: [ trigger('animate', [
+    // Attention seekers
+    ...beat,...bounce,...flip,...headShake,...heartBeat,...jello,...pulse,...rubberBand,...shake,...swing,...tada,...wobble,
+    // Entrances
+    ...bumpIn,...bounceIn,...fadeIn,...flipIn,...jackInTheBox,...landing,...rollIn,...zoomIn,
+    // Exits
+    ...bounceOut,...fadeOut,...hinge,...rollOut,...zoomOut,
+    // None
+    state('none', style('*')), state('idle-none', style('*'))
   ])]
 })
 export class AnimateComponent implements OnInit, OnDestroy {
@@ -43,7 +48,7 @@ export class AnimateComponent implements OnInit, OnDestroy {
   public animating = false;
   public animated = false;
 
-  constructor(private elm: ElementRef, private scroll: AnimateService) {}
+  constructor(private elm: ElementRef, private scroll: AnimateService, private renderer: Renderer2) {}
 
   @HostBinding('@animate') 
   public trigger;
@@ -101,7 +106,18 @@ export class AnimateComponent implements OnInit, OnDestroy {
   /** Emits at the end of the animation */
   @Output() done = new EventEmitter<void>();  
   @HostListener('@animate.done') 
-  public animationDone() { this.animating = false; this.animated = true; this.done.emit(); }
+  public animationDone() { 
+    
+    this.animating = false; this.animated = true; this.done.emit(); 
+
+    /** 
+     * Removes spurious 'animation' style from the element once done with the animation. 
+     * This behaviour has been observed when running on iOS devices where for some reason 
+     * the animation engine do not properly clean-up the animation style using cubic-bezier()
+     * as its timing function. The issue do not appear with ease-in/out and others.
+     * */
+    this.renderer.removeStyle(this.elm.nativeElement, 'animation');
+  }
 
   /** When true, keeps the animation idle until the next replay triggers */
   @Input('paused') set pauseAnimation(value: boolean) { this.paused = coerceBooleanProperty(value); }
@@ -127,25 +143,33 @@ export class AnimateComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    // Sets the idle state for the given animation
-    this.trigger = this.idle;
+
     // Triggers the animation based on the input flags
     this.sub = this.replay$.pipe( 
+      
       // Waits the next round to re-trigger
       delay(0), 
+      
       // Triggers immediately when not paused
       startWith(!this.paused),
+      
       // Builds the AOS observable from the common service
-      this.scroll.trigger(this.elm, this.threshold),
-      // Prevents false visibility blinks due to the animation transformations
-      filter( trigger => !this.animating ),
+      this.scroll.trigger(this.elm, this.threshold),      
+      
       // Stop taking the first on trigger when aosOnce is set
       takeWhile(trigger => !trigger || !this.once, true),
 
-    ).subscribe( trigger => {
+      // Maps the trigger into animation states
+      map( trigger => trigger ? this.play : this.idle ),
+
+      // Always start with idle
+      startWith(this.idle),
+
+      // Eliminates multiple triggers
+      distinctUntilChanged(),
+
       // Triggers the animation to play or to idle
-      this.trigger = trigger ? this.play : this.idle;
-    });
+    ).subscribe( trigger => this.trigger = trigger );
   }
 
   // Disposes of the observable

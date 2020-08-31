@@ -11,7 +11,12 @@ import { ContentModule } from '@wizdm/content';
 import { RedirectModule } from '@wizdm/redirect';
 import { DialogModule } from '@wizdm/elements/dialog';
 import { IconModule } from '@wizdm/elements/icon';
+import { DoorbellModule } from '@wizdm/doorbell';
 import { FeedbackComponent } from './feedback.component';
+
+// Environment
+import { environment } from 'env/environment';
+const  { doorbell } = environment;
 
 @NgModule({
 

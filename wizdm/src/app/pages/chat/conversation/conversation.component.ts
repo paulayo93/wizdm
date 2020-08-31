@@ -4,7 +4,7 @@ import { map, startWith, switchMap, shareReplay, distinctUntilChanged } from 'rx
 import { QueryDocumentSnapshot, DatabaseCollection } from '@wizdm/connect/database/collection';
 import { DatabaseService, Timestamp } from '@wizdm/connect/database';
 import { DatabaseDocument } from '@wizdm/connect/database/document';
-import { UserProfile, UserData } from 'app/utils/user-profile';
+import { UserProfile, UserData } from 'app/utils/user';
 import { ConversationData, MessageData } from '../chat-types';
 import { MatMenuTrigger } from '@angular/material/menu';
 import { ThemePalette } from '@angular/material/core'
@@ -80,7 +80,7 @@ export class Conversation extends DatabaseDocument<ConversationData> {
     const senderId = this.data.recipients.find(id => id !== this.me) || 'unknown';
 
     // Resolves the sender user profile falling back to an unknown userName including the conversation id
-    this.sender$ = this.user.fromUserId( senderId, { userName: this.unknownUser } );
+    this.sender$ = this.user.fromUserId( senderId ).pipe( map( data => data || { userName: this.unknownUser } ) );
 
     // Resolves the last message in the thread
     this.last$ = this.thread$.stream( qf => qf.orderBy('created').limitToLast(1) ).pipe( 

@@ -1,11 +1,11 @@
-import { take, skip, startWith, map, tap, filter, expand, pluck, switchMap, distinctUntilChanged, shareReplay, takeUntil, delay } from 'rxjs/operators';
+import { take, skip, startWith, map, tap, filter, expand, pluck, switchMap, distinctUntilChanged, shareReplay, takeUntil, delay, debounceTime } from 'rxjs/operators';
 import { where, orderBy, startAfter, endBefore, snap, pageReverse, onSnapshot, docs } from '@wizdm/connect/database/collection/operators';
 import { Component, AfterViewInit, OnDestroy, Inject, NgZone, ViewChildren, QueryList } from '@angular/core';
 import { DatabaseCollection, QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
 import { ConversationData, ConversationFavorites, MessageData } from './chat-types';
 import { Subscription, Observable, BehaviorSubject, of, combineLatest } from 'rxjs';
 import { DatabaseDocument } from '@wizdm/connect/database/document';
-import { UserProfile, UserData } from 'app/utils/user-profile';
+import { UserProfile, UserData } from 'app/utils/user';
 import { DatabaseService } from '@wizdm/connect/database';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ScrollObservable } from 'app/utils/scrolling';
@@ -131,7 +131,7 @@ export class ChatComponent extends DatabaseCollection<ConversationData> implemen
           this.recipient = user.id;
 
           // Computes the path for the requested conversation otherwise
-          return (this.me < user.id ? this.me.concat(user.id) : user.id.concat(this.me) );
+          return (this.me < user.id ? this.me.concat(user.id) : this.recipient.concat(this.me) );
         }));
       }),
       // Filters unchanged values and replays to all subscribers
@@ -140,7 +140,7 @@ export class ChatComponent extends DatabaseCollection<ConversationData> implemen
 
     // Resolves the active conversation
     this.activeConversation$ = combineLatest(this.conversations$, this.conversationId$).pipe( 
-      map( ([convs, id]) => convs?.find( conv => conv.id === id ) ) 
+      map( ([convs, id]) => convs?.find( conv => conv.id === id ) || {} as any) 
     );
 
     // Paging observalbe to load the previous messages while scrolling up
@@ -150,7 +150,7 @@ export class ChatComponent extends DatabaseCollection<ConversationData> implemen
       map( scroll => scroll.top < 50 ),
       
       // Filters for truthfull changes
-      startWith(true), distinctUntilChanged(), filter( value => value ),
+      distinctUntilChanged(), filter( value => value ),
       
       // Asks for the next 20 messages
       map( () => 20 ),
@@ -209,7 +209,7 @@ export class ChatComponent extends DatabaseCollection<ConversationData> implemen
     );
 
     /** Builds an observable telling if the view has been scrolled */
-    this.scrolled$ = this.conversationId$.pipe( switchMap( () => scroller.pipe( 
+    this.scrolled$ = scroller.pipe( 
 
       // Measure the scrolling distance from the bottom 
       map( scroll => scroll.bottom >= 50 ),
@@ -217,15 +217,12 @@ export class ChatComponent extends DatabaseCollection<ConversationData> implemen
       // Distincts the value on changes only
       distinctUntilChanged(),
       
-      // Starts with false
-      startWith(false),
-      
       // Enables/disables the autoScroll accordingly
       tap( scrolled => this.autoScroll = !scrolled ),
       
       // Run within angular zone
       runInZone(this.zone)
-    )));
+    );
   }
 
   ngAfterViewInit() {

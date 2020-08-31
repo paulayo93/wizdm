@@ -1,21 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { UserProfile } from 'app/utils/user-profile';
+import { DialogComponent } from '@wizdm/elements/dialog';
 import { MatDialog } from '@angular/material/dialog';
 import { DoorbellService } from '@wizdm/doorbell';
-import { DialogComponent } from '@wizdm/elements/dialog';
-
-export interface DorbellSubmit {
-  email        : string,
-  message      : string,
-  name?        : string
-  ip?          : string,
-  sentiment?   : 'positive'|'neutral'|'negative',
-  tags?        : string|string[],
-  properties?  : { [key: string]: string },
-  attachments? : number[],
-  nps?         : number,
-  language?    : string
-};
+import { UserProfile } from 'app/utils/user';
 
 @Component({
   selector: 'wm-feedback-dlg',
@@ -36,7 +23,7 @@ export class FeedbackComponent extends DialogComponent {
   constructor(dialog: MatDialog, private user: UserProfile, private doorbell: DoorbellService) { 
     super(dialog);
 
-    this.panelClass = ['wm-feedback', 'wm-theme-colors'];    
+    this.panelClass = ['wm-feedback'];
   }
 
   get me() { return this.user.data || {}; }
@@ -57,7 +44,7 @@ export class FeedbackComponent extends DialogComponent {
     return false;
   }
   
-  public open() {
+  public open(data?: any) {
 
     this.sending = this.sent = false;
 
@@ -68,7 +55,7 @@ export class FeedbackComponent extends DialogComponent {
     this.files = null;
 
     // Opens the form dialog
-    const ref = super.open();
+    const ref = super.open(data);
 
     // Rings the doorbell when opening the feedback form
     ref.afterOpened().subscribe( () => 

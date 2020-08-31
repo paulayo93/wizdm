@@ -45,6 +45,8 @@ export class PostComponent extends DatabaseDocument<PostData> {
     // Gets the data
     this.data = snapshot.data();
     console.log(this.data);
+    // Unwraps the document data and reference
+    this.data = this.unwrap(snapshot);
     
     // Gets the likes distributed counter
     this.likes = this.counter('likes');

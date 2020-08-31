@@ -6,7 +6,7 @@ import { query, stream, onSnapshot, where, orderBy, limit, endBefore, docs, snap
 import { DatabaseGroup, QueryDocumentSnapshot } from '@wizdm/connect/database/collection';
 import { DatabaseService } from '@wizdm/connect/database';
 import { PostData} from './feed-types';
-import { UserProfile, UserData } from 'app/utils/user-profile';
+import { UserProfile, UserData } from 'app/utils/user';
 
 
 
@@ -17,13 +17,11 @@ import { UserProfile, UserData } from 'app/utils/user-profile';
 })
 export class FeedComponent extends DatabaseGroup<PostData> {
 
-  readonly feed$: Observable<QueryDocumentSnapshot<PostData>[]>;
+  public feed$: Observable<QueryDocumentSnapshot<PostData>[]>;
 
   public loading: boolean = true;
 
-  public get me(): string {
-    return this.user.uid;
-  }
+ 
 
   constructor(db: DatabaseService, private user: UserProfile<UserData>) {
     super(db, "feed");

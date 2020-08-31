@@ -50,11 +50,13 @@
     },
     "verifyEmail": {
       "title": "Email verification",
-      "message": "Thank you for verifying your email.\nEnjoy"
+      "message": "Thank you for verifying your email.\nEnjoy",
+      "caption": "Close"
     },
     "recoverEmail": {
       "title": "Email recovery",
-      "message": "Your previous email has been restored.\nWe recommend changing your password the soonest"
+      "message": "Your previous email has been restored.\nWe recommend changing your password the soonest",
+      "caption": "Close"
     },
     "changeEmail": {
       "title": "Change email",
@@ -78,11 +80,13 @@
     "auth": {
       "wrongPassword": "This password seems wrong",
       "userNotFound": "This user doesn't exist",
+      "userDisabled": "The user is temporarily disabled",
       "emailAlreadyInUse": "This email is already registered",
       "invalidEmail": "This is not a valid email",
       "weakPassword": "This password looks too weak",
       "networkRequestFailed": "There's some trouble with the network",
       "invalidActionCode": "The action code provided is no longer valid",
+      "expiredActionCode": "The action code provided has expired",      
       "unsupportedProvider": "The requestes provider is not supported",
       "accountExistsWithDifferentCredential": "The account exists with different credentials",
       "authDomainConfigRequired": "The autheintication domain wasn't provided",

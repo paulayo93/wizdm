@@ -12,7 +12,6 @@ import { FunctionsModule } from '@wizdm/connect/functions';
 import { AuthModule } from '@wizdm/connect/auth';
 import { ConnectModule } from '@wizdm/connect';
 import { ContentModule } from '@wizdm/content';
-import { DoorbellModule } from '@wizdm/doorbell';
 import { ReadmeNavigator } from '@wizdm/readme';
 import { RedirectService } from '@wizdm/redirect';
 import { EmojiSupportModule } from '@wizdm/emoji';
@@ -24,8 +23,8 @@ import { ScrollingModule } from 'app/utils/scrolling';
 import { AppComponent } from './app.component';  
 
 // Environment
-import { appname, content, emoji, scroll, ipinfo, tooltips, stripeElements } from '../environments/common';
-import { firebase, stripePublicKey, doorbell, gtag } from '../environments/secrets';
+import { environment } from '../environments/environment';
+const  { appname, content, emoji, scroll, ipinfo, tooltips, stripeElements, firebase, stripeTestKey, stripeLiveKey, gtag } = environment;
 
 // Define the singe lazy loading navigation routes
 const routes: Routes = [ 
@@ -40,20 +39,17 @@ const routes: Routes = [
     BrowserAnimationsModule,
     // Firebase integration
     ConnectModule.init(firebase, appname),
-    AuthModule, DatabaseModule, 
-    StorageModule, FunctionsModule,
+    AuthModule, DatabaseModule, StorageModule, FunctionsModule,
     // IP location info
     IpInfoModule.init(ipinfo),   
     // Dynamic content (i18n)
     ContentModule.init(content),
-    // Doorbell service (Feedback form)
-    DoorbellModule.init(doorbell),
     // Google Analytics
     GtagModule.init(gtag),
     // Universal Emoji support
     EmojiSupportModule.init(emoji),
     // Stripe payments w/ elements
-    StripeModule.init(stripePublicKey),
+    StripeModule.init(environment.production ? stripeLiveKey : stripeTestKey),
     // Styles StripeElements to fit wizdm styling
     StripeElementsModule.init(stripeElements),
     // Angular's Router

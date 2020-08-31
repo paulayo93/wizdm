@@ -27,6 +27,11 @@
               "wizdm/src/favicon.ico",
               "wizdm/src/assets",
               {
+                "glob": "*",
+                "input": "./node_modules/@fortawesome/fontawesome-free/webfonts/",
+                "output": "/assets/font/"
+              },
+              {
                 "glob": "*.png",
                 "input": "./node_modules/emoji-datasource-google/img/google/64/",
                 "output": "/assets/emoji/"
@@ -37,7 +42,9 @@
                 "output": "/assets/emoji/sheets/"
               }
             ],
-            "styles": ["wizdm/src/styles.scss"],
+            "styles": [
+              "wizdm/src/styles.scss"              
+            ],
             "stylePreprocessorOptions": {
               "includePaths": ["wizdm/src/styles", "elements/src/lib", "emoji-keyboard/src/lib"]
             },
@@ -64,7 +71,7 @@
               "fileReplacements": [
                 {
                   "replace": "wizdm/src/environments/secrets.ts",
-                  "with": "wizdm/src/environments/secrets.prod.private.ts"
+                  "with": "wizdm/src/environments/secrets.private.ts"
                 },
                 {
                   "replace": "wizdm/src/environments/environment.ts",
@@ -1032,6 +1039,46 @@
             "tsConfig": [
               "emoji-keyboard/tsconfig.lib.json",
               "emoji-keyboard/tsconfig.spec.json"
+            ],
+            "exclude": [
+              "**/node_modules/**"
+            ]
+          }
+        }
+      }
+    },
+    "geo": {
+      "projectType": "library",
+      "root": "geo",
+      "sourceRoot": "geo/src",
+      "prefix": "lib",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-ng-packagr:build",
+          "options": {
+            "tsConfig": "geo/tsconfig.lib.json",
+            "project": "geo/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "geo/tsconfig.lib.prod.json"
+            }
+          }
+        },
+        "test": {
+          "builder": "@angular-devkit/build-angular:karma",
+          "options": {
+            "main": "geo/src/test.ts",
+            "tsConfig": "geo/tsconfig.spec.json",
+            "karmaConfig": "geo/karma.conf.js"
+          }
+        },
+        "lint": {
+          "builder": "@angular-devkit/build-angular:tslint",
+          "options": {
+            "tsConfig": [
+              "geo/tsconfig.lib.json",
+              "geo/tsconfig.spec.json"
             ],
             "exclude": [
               "**/node_modules/**"

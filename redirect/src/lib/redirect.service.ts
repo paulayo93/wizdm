@@ -14,7 +14,7 @@ export class RedirectService implements CanActivate {
   constructor(@Inject(DOCUMENT) readonly document: Document, readonly router: Router) { }
 
   /** The Window object from Document defaultView */
-  get window(): Window { return this.document.defaultView; }
+  get window(): Window { return this.document.defaultView || window; }
 
   /** Redirects instantly to the external link without the mediation of the router */
   public redirect(url: string, target: string = '_blank'): Promise<boolean> {
@@ -40,7 +40,7 @@ export class RedirectService implements CanActivate {
   /** Parses the given url for internal routing */
   private internalUrl(url: string): string {
     // Handles '#' anchors and '.' relative urls by prepending the current url from the router
-    return url && url.startsWith('#') ? (this.router.url + url) : (url && url.replace(/^\./, this.router.url));
+    return url && url.startsWith('#') ? (this.router.url.replace(/#.*$/, '') + url) : (url && url.replace(/^\./, this.router.url));
   }
 
   /** Navigates to the given url, redirecting when necessary 
@@ -62,8 +62,14 @@ export class RedirectService implements CanActivate {
 
     // Gets the url query parameter, if any
     const url = route.queryParamMap.get('url');
+
     // If the url matches an external link, redirects stopping the route activation
     if( this.external(url) ) { 
+
+      // Verifies whenever the external url may be redirected internally (since the origin matches)
+      const rx = new RegExp(`^${this.window.location.origin}`);
+      if( url.match(rx) ) { return this.router.parseUrl( url.replace(rx, '') ); }
+
       // Gets the optional target, when specified
       const target = route.queryParamMap.get('target');
       // Jumps to the external resource

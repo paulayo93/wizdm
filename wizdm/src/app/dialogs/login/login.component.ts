@@ -1,15 +1,17 @@
-import { Component, ViewEncapsulation } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { UserProfile } from 'app/utils/user-profile';
+import { Component, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { RedirectService } from '@wizdm/redirect';
 import { DialogComponent } from '@wizdm/elements/dialog';
-import { $animations } from './login-animations';
 import { GtagService } from '@wizdm/gtag';
+import { UserProfile } from 'app/utils/user';
+import { $animations } from './login-animations';
+
+import type { ActionData } from '@wizdm/actionlink';
 
 export type loginAction = 'social'|'register'|'signIn'|'forgotPassword'|'resetPassword'|'changePassword'|'sendEmailVerification'|'verifyEmail'|'recoverEmail'|'changeEmail'|'delete'|'signOut';
 
-export interface LoginData { 
+export interface LoginData extends ActionData { 
   mode?: loginAction;
   code?: string;
   url?: string;
@@ -40,7 +42,7 @@ export class LoginComponent extends DialogComponent<LoginData> {
 
   get auth() { return this.user.auth; }
   
-  constructor(dialog: MatDialog, private user: UserProfile, private gtag: GtagService, private redirect: RedirectService) {
+  constructor(dialog: MatDialog, private user: UserProfile, private gtag: GtagService, private redirect: RedirectService/*, private actionLink: ActionLinkObserver*/) {
 
     super(dialog);
 
@@ -168,8 +170,8 @@ export class LoginComponent extends DialogComponent<LoginData> {
     this.progress = false;
     // Sets the error code to be displayed
     this.errorCode = error;
-    // Makes sure to turn off the error message after 3s
-    setTimeout(() => this.errorCode = null, 3000);
+    // Makes sure to turn off the error message after 10s
+    setTimeout(() => this.errorCode = null, 10000);
   }
 
   public activate(action: loginAction) {
@@ -208,6 +210,11 @@ export class LoginComponent extends DialogComponent<LoginData> {
 
       case 'delete':
       this.deleteAccount( this.password.value );
+      break;
+
+      case 'verifyEmail': 
+      case 'recoverEmail':
+      this.close(this.auth.user);
       break;
     }
   }
@@ -273,13 +280,16 @@ export class LoginComponent extends DialogComponent<LoginData> {
   }
 
   private sendEmailVerification() {
-    // Grabs the url value passed along with the dialog data
+    
+    // Grabs the url value passed along with the dialog data. Please note this is a relative url
     const url = this.data && this.data.url || ''; 
+    
     // Removes the url from data preventing the redirection while closing the dialog
     if('url' in this.data) { delete this.data.url; } 
-    // Sends the email verification request passing along the destination url for the user
+
+    // Sends the email verification request passing along the destination deep url for the user
     // to be redirected towards the desiderd destination once the verification will be completed
-    return this.auth.user.sendEmailVerification({ url })
+    return this.auth.user.sendEmailVerification({ url: window.location.origin + url })
       // Closes the dialog returning null
       .then( () => this.close(null) )
       // Dispays the error code, eventually
@@ -309,9 +319,15 @@ export class LoginComponent extends DialogComponent<LoginData> {
   
   private updateEmail(password: string, newEmail: string) {
     // Refreshes the authentication
-    this.auth.reauthenticate(password)
+    this.auth.reauthenticate(password).then( user => {
+        
       // Updates the email returning the new user object
-      .then( user => user.updateEmail(newEmail).then( () => this.close(user) ) )
+      user.updateEmail(newEmail)
+
+        .then( () => user.sendEmailVerification() )
+      
+        .then( () => this.close(user) )
+      })
       // Dispays the error code, eventually
       .catch( error => this.showError(error.code) );
   }

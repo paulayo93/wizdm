@@ -1,8 +1,7 @@
 import { ContentRouterModule, RoutesWithContent } from '@wizdm/content';
-import { BackLinkObserver, CloseLinkObserver } from 'app/utils/action-links';
-import { LanguageSelector, WelcomeBack } from 'app/utils/lang-selector';
-import { matchUserNameOnly } from 'app/pages/profile/profile.module';
-import { matchFullPath } from 'app/pages/static/static.module';
+import { BackLinkObserver, CloseLinkObserver, WelcomeBack } from './utils';
+import { matchUserNameOnly } from 'app/pages/profile/matcher';
+import { matchFullPath } from 'app/pages/static/matcher';
 import { NavigatorComponent } from './navigator.component';
 import { Oauth2Handler } from 'app/utils/oauth2-handler';
 import { RedirectService } from '@wizdm/redirect';
@@ -47,7 +46,7 @@ const routes: RoutesWithContent = [
       { path: '404', redirectTo: 'not-found', pathMatch: 'full' },
 
       // Landing page
-      { path: '', loadChildren: () => import('../pages/landing/landing.module').then(m => m.LandingModule) },
+      { path: '', pathMatch: 'full', loadChildren: () => import('../pages/landing/landing.module').then(m => m.LandingModule) },
       { path: 'home', redirectTo: '', pathMatch: 'full' },
       
       // Content browsing
@@ -75,8 +74,7 @@ const routes: RoutesWithContent = [
       
       // Docs (using static docs subfolder)
       { path: 'docs', redirectTo: 'docs/start', pathMatch: 'full' },
-      { path: 'docs/toc', canActivate: [ ActionLinkObserver ], data: { actionMatch: 'toc' } },
-
+      
       // Static content pages (about, terms, docs/...), redirecting to NotFound when no content is available
       { matcher: matchFullPath, loadChildren: () => import('../pages/static/static.module').then(m => m.StaticModule) },
 
@@ -89,6 +87,6 @@ const routes: RoutesWithContent = [
 @NgModule({
   imports: [ ContentRouterModule.forChild(routes) ],
   exports: [ ContentRouterModule ],
-  providers: [ WelcomeBack, LanguageSelector ]
+  providers: [ WelcomeBack, UserPreferences ]
 })
 export class NavRoutingModule {}

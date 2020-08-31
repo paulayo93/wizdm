@@ -12,7 +12,7 @@ import { IconModule } from '@wizdm/elements/icon';
 import { AvatarModule } from '@wizdm/elements/avatar';
 import { MomentPipesModule } from '@wizdm/pipes/moment';
 import { AuthGuardModule } from 'app/utils/auth-guard';
-import { ValidProfile } from 'app/utils/user-profile';
+import { ValidProfile } from 'app/utils/user';
 import { SidenavModule } from 'app/navigator/sidenav';
 import { ExploreComponent } from './explore.component';
 
@@ -26,7 +26,7 @@ const routes: RoutesWithContent = [
       { path: '',       redirectTo: 'people', pathMatch: 'full' },
       { path: 'feed',   loadChildren: () => import('./feed/feed.module').then(m => m.FeedModule) },
       { path: 'people', loadChildren: () => import('./people/people.module').then(m => m.PeopleModule) },
-      //{ path: 'groups', loadChildren: () => import('./groups/groups.module').then(m => m.GroupsModule) }
+      { path: 'groups', loadChildren: () => import('./groups/groups.module').then(m => m.GroupsModule) }
     ]
   }
 ];
