@@ -1,47 +1,51 @@
-    <div fxLayout="column" fxLayoutAlign="center center">
-      <mat-card *ngIf="data" class="wm-card mat-elevation-z24">
-        <mat-card-header> 
-          <div mat-card-avatar>
-            <wm-avatar [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'"></wm-avatar>
-          </div>
-          <mat-card-title >
-            <mat-card-subtitle>
-              <!-- display formatted timedate feed was publish -->
-              <ng-container *ngIf="data.created">
-                <span>{{data.created}}</span>
-              </ng-container>
-  
-              <!-- display view status either public or ? -->
-              <ng-container *ngIf="'public' in data.tags">
-                <!-- Public status Icon -->
-                <wm-icon [icon]=""></wm-icon>
-              </ng-container>
-            </mat-card-subtitle>
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div>
-            <p [wm-readme]="data.title"></p>
-            <p [wm-readme]="data.text"></p>
-          </div>
-          <img mat-card-image [src]="" alt="Wizdm Photo" style="object-fit: cover;"/>
-        </mat-card-content>
-        <mat-card-actions fxLayout="row" fxLayoutAlign="start end">
-          <button mat-icon-button color="primary" class="mat-elevation-z4" (authClick)="toggleFavorite()"
-          [matBadge]="likes.counter$ | async" [matBadgeHidden]="(likes.counter$ | async) === 0">
 
-    <wm-icon [icon]="(favorite$ | async) ? 'fas:fa-thumbs-up' : 'far:fa-thumbs-up'" [@beat]="likes.counter$ | async"></wm-icon>
-  </button>
 
-          <button mat-button>
-            <wm-icon [icon]="msgs.button.comment.icon"></wm-icon>
-            Comment</button
-          >
-          <button mat-button>
-            <wm-icon [icon]="msgs.button.share.icon">like</wm-icon>
-            Share</button
-          >
-        </mat-card-actions>
-      </mat-card>
-    </div>
+<div fxLayout="column" fxLayoutAlign="center center">
+  <mat-card *ngIf="data" class="wm-card mat-elevation-z24">
+    <mat-card-header>
+      <div mat-card-avatar>
+        <wm-avatar
+          [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
+        </wm-avatar>
+      </div>
+      <mat-card-title>
+        <mat-card-subtitle>
+          <!-- display formatted timedate feed was publish -->
+          <ng-container *ngIf="data.created">
+            <span>{{data.created}}</span>
+          </ng-container>
 
+          <!-- display view status either public or ? -->
+          <ng-container *ngIf="'public' in data.tags">
+            <!-- Public status Icon -->
+            <wm-icon [icon]=""></wm-icon>
+          </ng-container>
+        </mat-card-subtitle>
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <div>
+        <p [wm-readme]="data.title"></p>
+        <p [wm-readme]="data.text"></p>
+      </div>
+      <img mat-card-image [src]="" alt="Wizdm Photo" style="object-fit: cover;" />
+    </mat-card-content>
+    <mat-card-actions fxLayout="row" fxLayoutAlign="start end">
+      <button mat-icon-button color="primary" class="mat-elevation-z4" (authClick)="toggleFavorite()"
+        [matBadge]="likes.counter$ | async" [matBadgeHidden]="(likes.counter$ | async) === 0">
+
+        <wm-icon [icon]="(favorite$ | async) ? 'fas:fa-thumbs-up' : 'far:fa-thumbs-up'"
+          [@beat]="likes.counter$ | async"></wm-icon>
+      </button>
+
+      <button mat-button>
+        <wm-icon [icon]="msgs.button.comment.icon"></wm-icon>
+        Comment
+      </button>
+      <button mat-button>
+        <wm-icon [icon]="msgs.button.share.icon">like</wm-icon>
+        Share
+      </button>
+    </mat-card-actions>
+  </mat-card>
+</div>

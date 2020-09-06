@@ -13,6 +13,7 @@ import { MomentPipesModule } from '@wizdm/pipes/moment';
 import { AuthGuardModule } from 'app/utils/auth-guard';
 import { PostComponent } from './post.component';
 
+
 @NgModule({
   imports: [ 
     CommonModule,
