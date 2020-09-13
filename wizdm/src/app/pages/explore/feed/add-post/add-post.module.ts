@@ -6,6 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { AvatarModule } from '@wizdm/elements/avatar';
 import { IconModule } from '@wizdm/elements/icon';
 import { FlexLayoutModule } from '@angular/flex-layout';
+import { DialogModule } from '@wizdm/elements/dialog';
+import {MatFormFieldModule} from '@angular/material/form-field'; 
+import {MatInputModule} from '@angular/material/input';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 import {MatListModule} from '@angular/material/list'; 
@@ -18,7 +22,11 @@ import {MatListModule} from '@angular/material/list';
         MatCardModule,
         AvatarModule,
         IconModule,
-        MatListModule
+        MatListModule,
+        DialogModule,
+        MatFormFieldModule,
+        MatInputModule,
+        ReactiveFormsModule,
     ],
     exports: [AddPostComponent],
     declarations: [AddPostComponent],
