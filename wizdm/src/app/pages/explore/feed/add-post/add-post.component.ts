@@ -19,7 +19,7 @@ import { shareReplay, take } from 'rxjs/operators';
 
 export class AddPostComponent extends DatabaseDocument<UserData>{
 
-    public post: DatabaseCollection<PostData>;
+    public post: DatabaseDocument<PostData>;
 
     /** The current user's id */
     get me(): string { return this.user.uid; }
@@ -40,9 +40,6 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
             text: new FormControl(null),
             author: new FormControl(null)
         });
-
-
-
     }
 
     public logValue(data) {
@@ -57,34 +54,12 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
      * 
      */
     public savepost(data: QueryDocumentSnapshot<PostData>) {
-        /**
-get the root collection ref
 
-get the child document from the collection instance
-const document = this.document(user.uid);
- */
-
-        //  var data = this.form.value.text;
-
-
-        var collectionRef = this.db.collection('users').document(this.user.id).exists()
-            .then(exists => {
-                console.log(exists);
-                if (exists) {
-                    this.db.collection('users').document(this.user.uid).collection('feeds').uniqueId;
-                }
-            })
-
-        if (this.me) {
-            console.log(this.user.data);
-            this.logValue(data);
-
-            this.db.collection('users').document(this.user.uid).exists()
-            console.log(this.db.collection('users').document(this.user.uid).exists().then(
-                exist => { console.log(exist); }
-            ))
-
-        }
+        const userCol = this.db.collection('users')
+        const userColId = userCol.document(this.user.uid);
+        const feedEndpoint = userColId.collection('feed');
+        feedEndpoint.add(data);
+        let dataObj;
 
     }
 
