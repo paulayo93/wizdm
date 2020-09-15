@@ -53,13 +53,20 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
      * savepost
      * 
      */
-    public savepost(data: QueryDocumentSnapshot<PostData>) {
+
+    public savepost() {
+        let data: PostData = {};
+        // console.log(this.form.value.text)
+        data.title = 'This si viw iowi'
+        data.text = this.form.value.text;
+        data.author = 'Paul Ayo';
+        data.channel = 'Mobile Device'
+        data.tags = ['public', 'groups']
 
         const userCol = this.db.collection('users')
         const userColId = userCol.document(this.user.uid);
         const feedEndpoint = userColId.collection('feed');
-        feedEndpoint.add({name: data}).then(value => console.log(value.get()))
-        
+        feedEndpoint.add({...data}).then(value => console.log(value.get()))
 
     }
 
