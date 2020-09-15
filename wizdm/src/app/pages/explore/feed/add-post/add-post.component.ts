@@ -58,8 +58,8 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
         const userCol = this.db.collection('users')
         const userColId = userCol.document(this.user.uid);
         const feedEndpoint = userColId.collection('feed');
-        feedEndpoint.add(data);
-        let dataObj;
+        feedEndpoint.add({name: data}).then(value => console.log(value.get()))
+        
 
     }
 
