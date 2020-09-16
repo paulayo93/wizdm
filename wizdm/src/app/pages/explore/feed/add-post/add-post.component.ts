@@ -56,7 +56,6 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
 
     public savepost() {
         let data: PostData = {};
-        // console.log(this.form.value.text)
         data.title = 'This si viw iowi'
         data.text = this.form.value.text;
         data.author = 'Paul Ayo';
