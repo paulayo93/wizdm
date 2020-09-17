@@ -1,6 +1,28 @@
-:host {
-  mat-form-field:not(.mat-form-field-should-float) .mat-input-placeholder {
-    padding: 10px;
-    box-sizing: border-box;
+$wm-pcard-width: 500px !default;
+
+$wm-pcard-height: 50%;
+
+
+.wm-addpost {
+  position: relative;
+
+  .card__container {
+    width: $wm-pcard-width;
+    height: $wm-pcard-height;
+    margin-top: 100px;
+  }
+  mat-card-content {
+    width: 100%;
+  }
+  .post-entry {
+    border-radius: 50px;
+    background-color: hsla(0,0%,81.2%,.25);
+    width: 100%;
+    margin-left: 25px
+  }
+  .post-modal-entry {
+    height: 100%;
+    cursor: pointer
+   
   }
 }

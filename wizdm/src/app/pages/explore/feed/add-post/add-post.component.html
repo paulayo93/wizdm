@@ -1,15 +1,21 @@
-<div fxLayout="column" fxLayoutAlign="center center"  fxLayoutGap="100px" >
-  <mat-card fxLayout="row">
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item>
+<div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
+  <mat-card fxLayout="row" class="card__container">
+    <mat-card-content >
+      <mat-list >
+        <mat-list-item  >
           <div mat-card-avatar>
             <wm-avatar
               [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
             </wm-avatar>
           </div>
-          <div fxLayout="row" fxFlex="80" class="post-modal-entry">
-            <span (click)="postdialog.open()" class="post-entry">What's on your mind</span>
+          <div fxLayout="row" fxLayoutAlign="start stretch" 
+          fxFlex="100" 
+          class="post-modal-entry">
+            <span (click)="postdialog.open()"
+             class="post-entry" fxLayoutAlign="center stretch" >
+             <p>What's on your mind Paul?</p>
+             
+            </span>
           </div>
         </mat-list-item>
       </mat-list>
@@ -17,7 +23,6 @@
 
   </mat-card>
 </div>
-
 
 
 <wm-dialog [panelClass]="'wm-addpost'" #postdialog>
