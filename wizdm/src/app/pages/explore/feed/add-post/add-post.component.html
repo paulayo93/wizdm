@@ -24,6 +24,7 @@
 <wm-dialog [panelClass]="'wm-dlg-addpost'"
  #postdialog>
   <ng-container>
+    <form [formGroup]="form" (ngSubmit)="savepost()">
     <div fxLayout="row" class="dlg-header" fxLayoutAlign="space-between center">
       <div class="dlg-header__title">
         <h4 mat-dialog-title>Create Post</h4>
@@ -45,7 +46,18 @@
         <a  class="mat-small"  href="#">Public</a>
       </div>
     </div>
+    <div fxLayout="row">
+      <mat-form-field appearance="legacy" fxFlex="1 1 auto">
+        <mat-label></mat-label>
+        <textarea matInput #userText formControlName="text" placeholder="What's on your Mind, Paul?"></textarea>
+      </mat-form-field>
+    </div>
 
+    <mat-dialog-actions align="center">
+      <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Add Post</button>
+
+    </mat-dialog-actions>
+    </form>
   </ng-container>
 
 </wm-dialog>
