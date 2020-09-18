@@ -26,7 +26,7 @@
   <ng-container>
     <div fxLayout="row" class="dlg-header" fxLayoutAlign="space-between center">
       <div class="dlg-header__title">
-        <h2 mat-dialog-title>Create Post</h2>
+        <h4 mat-dialog-title>Create Post</h4>
       </div>
       <div class="dlg-header__close" fxLayout="row" fxLayoutAlign="end start">
         <wm-icon  (click)="postdialog.close($event)" [icon]="'fas:fa-times'"></wm-icon>
@@ -41,8 +41,8 @@
         </wm-avatar>
       </div>
       <div fxLayout="column" style="margin-left: 0.2rem;">
-        <a href="#">Ayo Paul </a>
-        <a href="#">Public</a>
+        <a class="mat-small" href="#">Ayo Paul </a>
+        <a  class="mat-small"  href="#">Public</a>
       </div>
     </div>
 
