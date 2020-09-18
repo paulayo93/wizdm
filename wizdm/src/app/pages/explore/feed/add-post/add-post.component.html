@@ -1,20 +1,17 @@
 <div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
   <mat-card fxLayout="row" class="card__container">
-    <mat-card-content >
-      <mat-list >
-        <mat-list-item  >
+    <mat-card-content>
+      <mat-list>
+        <mat-list-item>
           <div mat-card-avatar>
             <wm-avatar
               [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
             </wm-avatar>
           </div>
-          <div fxLayout="row" fxLayoutAlign="start stretch" 
-          fxFlex="100" 
-          class="post-modal-entry">
-            <span (click)="postdialog.open()"
-             class="post-entry" fxLayoutAlign="center stretch" >
-             <p>What's on your mind Paul?</p>
-             
+          <div fxLayout="row" fxLayoutAlign="start stretch" fxFlex="100" class="post-modal-entry">
+            <span (click)="postdialog.open()" class="post-entry" fxLayoutAlign="center">
+              <p>What's on your mind, Paul?</p>
+
             </span>
           </div>
         </mat-list-item>
@@ -24,57 +21,30 @@
   </mat-card>
 </div>
 
-
-<wm-dialog [panelClass]="'wm-addpost'" #postdialog>
+<wm-dialog [panelClass]="'wm-dlg-addpost'"
+ #postdialog>
   <ng-container>
-    <div fxLayout="row" fxLayoutAlign="center center">
-      <form [formGroup]="form" (ngSubmit)="savepost()">
-        <mat-card>
-          <mat-card-header>
-            <mat-card-title fxLayoutAlign="center">
-              <span fxFlex="70">Create Post</span>
-              <span>Close</span>
-            </mat-card-title>
-
-          </mat-card-header>
-          <mat-divider [inset]="true">
-          </mat-divider>
-
-          <mat-card-content style="margin-top:0.5rem;">
-            <div fxLayout='column'>
-              <div fxLayout="row">
-                <span mat-card-avatar>
-                  <wm-avatar
-                    [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
-                  </wm-avatar>
-                </span>
-                <div fxLayout="column" style="margin-left: 0.2rem;">
-                  <a href="#">Ayo Paul </a>
-                  <a href="#">Public</a>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- <div fxLayout="row"> -->
-            <div fxLayout="row">
-              <mat-form-field appearance="legacy" fxFlex="1 1 auto">
-                <mat-label></mat-label>
-                <textarea matInput #userText formControlName="text" placeholder="What's on your Mind Paul"></textarea>
-              </mat-form-field>
-            </div>
-            <!-- <button mat-button>Post</button> -->
-            <!-- </div> -->
-
-          </mat-card-content>
-          <mat-card-actions>
-            <button mat-button>Post</button>
-          </mat-card-actions>
-        </mat-card>
-      </form>
-      <!-- <p>{{userText.value}}</p> -->
+    <div fxLayout="row" class="dlg-header" fxLayoutAlign="space-between center">
+      <div class="dlg-header__title">
+        <h2 mat-dialog-title>Create Post</h2>
+      </div>
+      <div class="dlg-header__close" fxLayout="row" fxLayoutAlign="end start">
+        <wm-icon  (click)="postdialog.close($event)" [icon]="'fas:fa-times'"></wm-icon>
+      </div>
     </div>
-
+    <mat-divider>
+    </mat-divider>
+    <div class="dlg-subheader" fxLayout="row" fxLayoutGap="10px">
+      <div class="dlg-avatar">
+        <wm-avatar
+          [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
+        </wm-avatar>
+      </div>
+      <div fxLayout="column" style="margin-left: 0.2rem;">
+        <a href="#">Ayo Paul </a>
+        <a href="#">Public</a>
+      </div>
+    </div>
 
   </ng-container>
 

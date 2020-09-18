@@ -1,11 +1,11 @@
 $wm-pcard-width: 500px !default;
-
 $wm-pcard-height: 50%;
+$wm-avatar-size    : 48px !default;
 
 
 .wm-addpost {
   position: relative;
-
+  
   .card__container {
     width: $wm-pcard-width;
     height: $wm-pcard-height;
@@ -25,4 +25,37 @@ $wm-pcard-height: 50%;
     cursor: pointer
    
   }
+}
+
+.wm-dlg-addpost {
+  position: relative;
+  display: block;
+  width: 500px;
+  left: 100px;
+  // border: 1px solid red;
+
+  .dlg-subheader {
+    margin-top: $wm-avatar-size/4;
+  }
+
+  .dlg-avatar {
+    position: relative;
+    height: $wm-avatar-size;
+
+    wm-avatar {
+      width: $wm-avatar-size;
+      height: $wm-avatar-size;
+      line-height: $wm-avatar-size;
+      cursor: pointer;
+     
+      //margin-left: -10px;
+    }
+  }
+  
+  .dlg-header__close {
+    wm-icon {
+      cursor: pointer;
+    }
+  }
+
 }

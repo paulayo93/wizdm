@@ -8,6 +8,7 @@ import { DatabaseDocument } from '@wizdm/connect/database/document';
 import { DatabaseService, Timestamp } from '@wizdm/connect/database';
 import { UserProfile, UserData } from 'app/utils/user';
 import { shareReplay, take } from 'rxjs/operators';
+import { MediaObserver } from '@angular/flex-layout';
 
 @Component({
     selector: 'wm-addpost',
@@ -32,7 +33,10 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
     public pstVal: string;
     //   tags?   : string[];
 
-    constructor(db: DatabaseService, private user: UserProfile) {
+    constructor(
+        db: DatabaseService, 
+        private user: UserProfile,
+        private media: MediaObserver) {
         super(db)
 
         this.form = new FormGroup({
