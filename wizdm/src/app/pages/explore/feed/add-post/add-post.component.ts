@@ -9,6 +9,7 @@ import { DatabaseService, Timestamp } from '@wizdm/connect/database';
 import { UserProfile, UserData } from 'app/utils/user';
 import { shareReplay, take } from 'rxjs/operators';
 import { MediaObserver } from '@angular/flex-layout';
+import { TypeinAdapter } from 'app/utils/textarea';
 
 @Component({
     selector: 'wm-addpost',
@@ -58,10 +59,11 @@ export class AddPostComponent extends DatabaseDocument<UserData>{
      * 
      */
 
-    public savepost() {
-        let data: PostData = {};
+    public savepost(data: PostData) {
+        // let data: PostData = {};
+
         data.title = 'This si viw iowi'
-        data.text = this.form.value.text;
+        data.text = data.text;
         data.author = 'Paul Ayo';
         data.channel = 'Mobile Device'
         data.tags = ['public', 'groups']

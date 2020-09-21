@@ -10,7 +10,10 @@ import { DialogModule } from '@wizdm/elements/dialog';
 import {MatFormFieldModule} from '@angular/material/form-field'; 
 import {MatInputModule} from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
-
+import { EmojiInputModule } from '@wizdm/emoji/input';
+import { EmojiMaterialModule } from '@wizdm/emoji/material';
+import { EmojiKeyboardModule } from '@wizdm/emoji-keyboard';
+import { TextareaModule } from 'app/utils/textarea';
 
 
 import {MatListModule} from '@angular/material/list'; 
@@ -28,6 +31,10 @@ import {MatListModule} from '@angular/material/list';
         MatFormFieldModule,
         MatInputModule,
         ReactiveFormsModule,
+        EmojiInputModule,
+        EmojiMaterialModule,
+        EmojiKeyboardModule,
+        TextareaModule
     ],
     exports: [AddPostComponent],
     declarations: [AddPostComponent],

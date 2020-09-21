@@ -23,8 +23,8 @@
 
 <wm-dialog [panelClass]="'wm-dlg-addpost'"
  #postdialog>
-  <ng-container>
-    <form [formGroup]="form" (ngSubmit)="savepost()">
+  <ng-container  *wmContent="let msgs select 'feed.addpost'">
+    <form [formGroup]="form" (ngSubmit)="savepost(this.form.value)">
     <div fxLayout="row" class="dlg-header" fxLayoutAlign="space-between center">
       <div class="dlg-header__title">
         <h4 mat-dialog-title>Create Post</h4>
@@ -41,16 +41,23 @@
           [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
         </wm-avatar>
       </div>
-      <div fxLayout="column" style="margin-left: 0.2rem;">
+      <div fxLayout="column">
         <a class="mat-small" href="#">Ayo Paul </a>
         <a  class="mat-small"  href="#">Public</a>
       </div>
     </div>
     <div fxLayout="row">
       <mat-form-field appearance="legacy" fxFlex="1 1 auto">
-        <mat-label></mat-label>
-        <textarea matInput #userText formControlName="text" placeholder="What's on your Mind, Paul?"></textarea>
+        <mat-label>Type a message</mat-label>
+        <textarea matInput [newline]="'always'" typein #userText formControlName="text" placeholder="What's on your Mind, Paul?" cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
       </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="stretch start">
+      <div>Add to your Post</div>
+      <div>file upload icon</div>
+      <div></div>
+
     </div>
 
     <mat-dialog-actions align="center">

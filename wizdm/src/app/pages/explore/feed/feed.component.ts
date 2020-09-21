@@ -21,8 +21,6 @@ export class FeedComponent extends DatabaseGroup<PostData> {
 
   public loading: boolean = true;
 
- 
-
   constructor(db: DatabaseService, private user: UserProfile<UserData>) {
     super(db, "feed");
 
@@ -50,7 +48,7 @@ export class FeedComponent extends DatabaseGroup<PostData> {
       ))
     );
 
-    console.log(this.feed$);
+    // console.log(this.feed$);
   }
 
  

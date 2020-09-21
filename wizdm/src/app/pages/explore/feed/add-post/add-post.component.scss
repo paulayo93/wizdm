@@ -1,13 +1,12 @@
-$wm-pcard-width: 500px !default;
+$wm-pcard-width: 600px !default;
 $wm-pcard-height: 50%;
-$wm-avatar-size    : 48px !default;
-
+$wm-avatar-size : 48px !default;
 
 .wm-addpost {
   position: relative;
   
   .card__container {
-    width: $wm-pcard-width;
+    min-width: $wm-pcard-width;
     height: $wm-pcard-height;
     margin-top: 100px;
   }
@@ -23,7 +22,6 @@ $wm-avatar-size    : 48px !default;
   .post-modal-entry {
     height: 100%;
     cursor: pointer
-   
   }
 }
 
@@ -47,8 +45,6 @@ $wm-avatar-size    : 48px !default;
       height: $wm-avatar-size;
       line-height: $wm-avatar-size;
       cursor: pointer;
-     
-      //margin-left: -10px;
     }
   }
   
