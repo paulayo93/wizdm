@@ -47,17 +47,21 @@
       </div>
     </div>
     <div fxLayout="row">
-      <mat-form-field appearance="legacy" fxFlex="1 1 auto">
+      <!-- <mat-form-field appearance="legacy" fxFlex="1 1 auto">
         <mat-label>Type a message</mat-label>
         <textarea matInput [newline]="'always'" typein #userText formControlName="text" placeholder="What's on your Mind, Paul?" cdkTextareaAutosize cdkAutosizeMinRows="2"></textarea>
+      </mat-form-field> -->
+
+      <mat-form-field appearance="legacy" fxFlex="1 1 auto">
+        <mat-label>{{ msgs.placeholder || 'Type a message' }}</mat-label>
+        <wm-emoji-input matEmoji typein [(value)]="value" [newline]="always" ></wm-emoji-input>
+        <wm-icon class="tools" inline matSuffix 
+                 [class.color-disabled]="disabled"
+                 [icon]="msgs.emoji?.icon || 'insert_emoticon'"                
+                 [matTooltip]="msgs.emoji?.tooltip || 'Insert an emoji'" 
+                 (mousedown)="!disabled && toggleEmojiKeys()">
+        </wm-icon>
       </mat-form-field>
-    </div>
-
-    <div fxLayout="row" fxLayoutAlign="stretch start">
-      <div>Add to your Post</div>
-      <div>file upload icon</div>
-      <div></div>
-
     </div>
 
     <mat-dialog-actions align="center">

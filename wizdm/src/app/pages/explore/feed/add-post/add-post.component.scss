@@ -28,8 +28,9 @@ $wm-avatar-size : 48px !default;
 .wm-dlg-addpost {
   position: relative;
   display: block;
-  width: 500px;
+  width: 450px;
   left: 100px;
+  top: -40px;
   // border: 1px solid red;
 
   .dlg-subheader {

@@ -13,14 +13,16 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { EmojiInputModule } from '@wizdm/emoji/input';
 import { EmojiMaterialModule } from '@wizdm/emoji/material';
 import { EmojiKeyboardModule } from '@wizdm/emoji-keyboard';
+import { EmojiImageModule } from '@wizdm/emoji/image';
 import { TextareaModule } from 'app/utils/textarea';
-
-
+import { ContentModule } from '@wizdm/content';
 import {MatListModule} from '@angular/material/list'; 
+
 
 @NgModule({
     imports: [
         CommonModule,
+        ContentModule,
         FlexLayoutModule,
         MatButtonModule,
         MatCardModule,
@@ -34,6 +36,7 @@ import {MatListModule} from '@angular/material/list';
         EmojiInputModule,
         EmojiMaterialModule,
         EmojiKeyboardModule,
+        EmojiImageModule,
         TextareaModule
     ],
     exports: [AddPostComponent],
