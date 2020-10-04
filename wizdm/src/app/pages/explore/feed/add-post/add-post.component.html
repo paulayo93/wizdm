@@ -1,62 +1,80 @@
-<div fxLayout="column" fxFlex="100" fxLayoutAlign="center center">
-  <mat-card fxLayout="row" class="card__container">
-    <mat-card-content>
-      <mat-list>
-        <mat-list-item>
-          <div mat-card-avatar>
-            <wm-avatar
-              [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
-            </wm-avatar>
-          </div>
-          <div fxLayout="row" fxLayoutAlign="start stretch" fxFlex="100" class="post-modal-entry">
+<div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
+    <mat-card class="card__container" fxLayout="row">
+        <mat-card-content>
+            <mat-list>
+                <mat-list-item>
+                    <div mat-card-avatar>
+                        <wm-avatar
+                                [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
+                        </wm-avatar>
+                    </div>
+                    <div class="post-modal-entry" fxFlex="100" fxLayout="row" fxLayoutAlign="start stretch">
             <span (click)="postdialog.open()" class="post-entry" fxLayoutAlign="center">
               <p>What's on your mind, Paul?</p>
 
             </span>
-          </div>
-        </mat-list-item>
-      </mat-list>
-    </mat-card-content>
+                    </div>
+                </mat-list-item>
+            </mat-list>
+        </mat-card-content>
 
-  </mat-card>
+    </mat-card>
 </div>
 
-<wm-dialog [panelClass]="'wm-dlg-addpost'"
- #postdialog>
-  <ng-container  *wmContent="let msgs select 'feed.addpost'">
-    <form [formGroup]="form" (ngSubmit)="savepost(this.form.value)">
-    <div class="dlg-header" fxLayout="row" fxLayoutAlign="space-between center">
-      <div class="dlg-header__title">
-        <h4 mat-dialog-title>Create Post</h4>
-      </div>
-      <div class="dlg-header__close" fxLayout="row" fxLayoutAlign="end start">
-        <wm-icon  (click)="postdialog.close($event)" [icon]="'fas:fa-times'"></wm-icon>
-      </div>
-    </div>
-    <mat-divider>
-    </mat-divider>
-    <div class="dlg-subheader" fxLayout="row" fxLayoutGap="10px">
-      <div class="dlg-avatar">
-        <wm-avatar
-          [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
-        </wm-avatar>
-      </div>
-      <div fxLayout="column">
-        <a class="mat-small" href="#">Ayo Paul </a>
-        <a  class="mat-small"  href="#">Public</a>
-      </div>
-    </div>
-<!--      The textarea-->
-    <div fxLayout="row">
 
+<wm-dialog #postdialog
+           [panelClass]="'wm-dlg-addpost'">
+    <ng-container *wmContent="let msgs select 'feed.addpost'">
+        <!--    <form>-->
+        <div class="dlg-header" fxLayout="row" fxLayoutAlign="space-between center">
+            <div class="dlg-header__title">
+                <h4 mat-dialog-title>Create Post</h4>
+            </div>
+            <div class="dlg-header__close" fxLayout="row" fxLayoutAlign="end start">
+                <wm-icon (click)="postdialog.close($event)" [icon]="'fas:fa-times'"></wm-icon>
+            </div>
+        </div>
+        <mat-divider>
+        </mat-divider>
+        <div class="dlg-subheader" fxLayout="row" fxLayoutGap="10px">
+            <div class="dlg-avatar">
+                <wm-avatar
+                        [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
+                </wm-avatar>
+            </div>
+            <div fxLayout="column">
+                <a class="mat-small" href="#">Ayo Paul </a>
+                <a class="mat-small" href="#">Public</a>
+            </div>
+        </div>
+        <form [formGroup]="postForm" fxLayout="column">
+            <div fxLayout="row" fxLayoutAlign="center end">
+                <mat-form-field fxFlex="1 1 auto">
+                    <wm-emoji-input formControlName="text" matEmoji></wm-emoji-input>
+                    <wm-icon (mousedown)="toggleEmojiKeys()" [icon]="msgs.textarea.emoji?.icon || 'insert_emoticon'"
+                             class="tools"
+                             inline
+                             matSuffix>
+                    </wm-icon>
+                </mat-form-field>
+            </div>
 
-    </div>
+            <mat-expansion-panel class="mat-elevation-z0">
 
-    <mat-dialog-actions align="center">
-      <button mat-button color="primary" [mat-dialog-close]="true" cdkFocusInitial>Add Post</button>
+                <wm-emoji-keyboard [mode]="'web'" ></wm-emoji-keyboard>
 
-    </mat-dialog-actions>
-    </form>
-  </ng-container>
+            </mat-expansion-panel>
 
+            <mat-dialog-actions align="center">
+                <button [mat-dialog-close]="true" cdkFocusInitial
+                        color="primary"
+                        mat-button>Add Post
+                </button>
+
+            </mat-dialog-actions>
+            <wm-emoji-text ></wm-emoji-text>
+        </form>
+
+    </ng-container>
 </wm-dialog>
+

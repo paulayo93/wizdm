@@ -16,7 +16,8 @@ import { EmojiKeyboardModule } from '@wizdm/emoji-keyboard';
 import { EmojiImageModule } from '@wizdm/emoji/image';
 import { TextareaModule } from 'app/utils/textarea';
 import { ContentModule } from '@wizdm/content';
-import {MatListModule} from '@angular/material/list'; 
+import {MatListModule} from '@angular/material/list';
+import {MatExpansionModule} from '@angular/material/expansion';
 
 
 @NgModule({
@@ -37,7 +38,8 @@ import {MatListModule} from '@angular/material/list';
         EmojiMaterialModule,
         EmojiKeyboardModule,
         EmojiImageModule,
-        TextareaModule
+        TextareaModule,
+        MatExpansionModule
     ],
     exports: [AddPostComponent],
     declarations: [AddPostComponent],

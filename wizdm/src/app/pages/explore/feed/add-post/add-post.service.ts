@@ -21,4 +21,15 @@ export class AddPostService extends DatabaseCollection<PostData>{
         super(db)
     }
 
+    public savePost(data: PostData) {
+
+        const userCol = this.db.collection('users')
+        const userColId = userCol.document(this.user.uid);
+        const feedEndpoint = userColId.collection('feed');
+        feedEndpoint.add({...data}).then(value => console.log(value.get()))
+    }
+
+    public uploadImage(file) {}
+
+    savePostWitImage(data) {}
 }

@@ -1,24 +1,27 @@
 $wm-pcard-width: 600px !default;
 $wm-pcard-height: 50%;
-$wm-avatar-size : 48px !default;
+$wm-avatar-size: 48px !default;
 
 .wm-addpost {
   position: relative;
-  
+
   .card__container {
     min-width: $wm-pcard-width;
     height: $wm-pcard-height;
     margin-top: 100px;
   }
+
   mat-card-content {
     width: 100%;
   }
+
   .post-entry {
     border-radius: 50px;
-    background-color: hsla(0,0%,81.2%,.25);
+    background-color: hsla(0, 0%, 81.2%, .25);
     width: 100%;
     margin-left: 25px
   }
+
   .post-modal-entry {
     height: 100%;
     cursor: pointer
@@ -49,10 +52,24 @@ $wm-avatar-size : 48px !default;
       cursor: pointer;
     }
   }
-  
+
   .dlg-header__close {
     wm-icon {
       cursor: pointer;
+    }
+  }
+
+  .tools {
+    cursor: pointer;
+    vertical-align: middle;
+  }
+
+  .wm-emoji-keyboard {
+    border: 1px solid red;
+    flex-direction: column !important;
+
+    .mat-button {
+      min-width: 40px;
     }
   }
 
