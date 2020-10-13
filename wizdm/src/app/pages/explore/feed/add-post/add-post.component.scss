@@ -2,13 +2,35 @@ $wm-pcard-width: 600px !default;
 $wm-pcard-height: 50%;
 $wm-avatar-size: 48px !default;
 
+.wm-mob-addpost {
+  margin-top: 50%;
+  //border: 1px solid purple;
+}
 .wm-addpost {
   position: relative;
+  //border: 1px solid purple;
 
-  .card__container {
+  .container {
     min-width: $wm-pcard-width;
     height: $wm-pcard-height;
     margin-top: 100px;
+    //border: 1px solid purple;
+  }
+  .mob-container {
+    max-width: 100%;
+
+    //border: 1px solid purple;
+  }
+  .mat-card{
+    width: 600px;
+    height: 80px;
+    //border: 1px solid purple;
+  }
+  .mob-mat-card {
+    width: 460px;
+    //height: 20px;
+    margin-top: 100px;
+    //border: 1px solid purple;
   }
 
   mat-card-content {
@@ -65,7 +87,7 @@ $wm-avatar-size: 48px !default;
   }
 
   .wm-emoji-keyboard {
-    border: 1px solid red;
+    //border: 1px solid red;
     flex-direction: column !important;
 
     .mat-button {

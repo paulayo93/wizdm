@@ -9,6 +9,8 @@ import { UserProfile, UserData } from 'app/utils/user';
 import { MediaObserver } from '@angular/flex-layout';
 import {AddPostService} from './add-post.service'
 import {MatExpansionPanel} from '@angular/material/expansion';
+import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+
 
 @Component({
     selector: 'wm-addpost',
@@ -24,10 +26,14 @@ export class AddPostComponent implements  OnInit{
 
     private postForm: FormGroup;
 
+    @ViewChild(CdkVirtualScrollViewport) scroller: CdkVirtualScrollViewport;
+
     @ViewChild(MatExpansionPanel) private emojiKeysPanel: MatExpansionPanel;
 
     /** The current user's id */
     get me(): string { return this.user.uid; }
+    // mobile responsiveness
+    public get mobile(): boolean { return this.media.isActive('xs'); }
 
     constructor(
         db: DatabaseService, 

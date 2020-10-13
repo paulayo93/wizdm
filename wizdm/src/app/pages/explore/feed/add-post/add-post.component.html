@@ -1,5 +1,8 @@
-<div fxFlex="100" fxLayout="column" fxLayoutAlign="center center">
-    <mat-card class="card__container" fxLayout="row">
+<div [class.container]="!mobile" [class.mob-container]="mobile" fxFlex="100" fxLayout="column"
+     fxLayoutAlign="center center">
+    <mat-card [class.mat-card]="!mobile" [class.mob-mat-card]="mobile"
+              fxLayout="row"
+              fxLayoutAlign="center center">
         <mat-card-content>
             <mat-list>
                 <mat-list-item>
@@ -61,7 +64,7 @@
 
             <mat-expansion-panel class="mat-elevation-z0">
 
-                <wm-emoji-keyboard [mode]="'web'" ></wm-emoji-keyboard>
+                <wm-emoji-keyboard [mode]="'web'"></wm-emoji-keyboard>
 
             </mat-expansion-panel>
 
@@ -72,7 +75,6 @@
                 </button>
 
             </mat-dialog-actions>
-            <wm-emoji-text ></wm-emoji-text>
         </form>
 
     </ng-container>
