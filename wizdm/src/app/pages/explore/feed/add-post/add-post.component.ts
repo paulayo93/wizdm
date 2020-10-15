@@ -10,6 +10,11 @@ import { MediaObserver } from '@angular/flex-layout';
 import {AddPostService} from './add-post.service'
 import {MatExpansionPanel} from '@angular/material/expansion';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
+import {TypeinAdapter} from 'app/utils/textarea';
+import { coerceBooleanProperty } from '@angular/cdk/coercion';
+import { HasTouchScreen } from 'app/utils/platform';
+import {EmojiUtils} from '@wizdm/emoji/utils';
+
 
 
 @Component({
@@ -27,20 +32,55 @@ export class AddPostComponent implements  OnInit{
     private postForm: FormGroup;
 
     @ViewChild(CdkVirtualScrollViewport) scroller: CdkVirtualScrollViewport;
-
     @ViewChild(MatExpansionPanel) private emojiKeysPanel: MatExpansionPanel;
+    @ViewChild(TypeinAdapter) private typeinAdapter: TypeinAdapter;
 
+    private _value: string;
+
+    /** Input value */
+    // set value(value: string) { this.valueChange.emit(this._value = value); }
+    // get value(): string { return this._value; }
+
+    /** Favorites keys */
+     keys: string[];
+
+    /** Disables the composer */
+     set disabled(value: boolean) {
+
+        if( this._disabled = coerceBooleanProperty(value) ) {
+            // Force the panel closing when disabled
+            this.emojiKeysPanel?.close();
+        }
+    }
+    get disabled(): boolean { return this._disabled; }
+    private _disabled: boolean = false;
     /** The current user's id */
     get me(): string { return this.user.uid; }
     // mobile responsiveness
     public get mobile(): boolean { return this.media.isActive('xs'); }
 
+    /** Returns the globally used emoji mode */
+    public get mode(): 'native'|'web' {
+        // Use the very same emoji mode from EmojiSupportModule
+        return this.utils.emojiMode();
+    }
+
+    public toggleEmojiKeys() {
+        return this.emojiKeysPanel.toggle(),  false;
+    }
+
+    public typein(key: string) {
+        this.logValue(`Log Value:  ${key}`);
+        // Uses the TypeInAdapter to insert the key at the current cursor position preventing default to avoid losing focus
+        return this.typeinAdapter?.typein(key), false;
+    }
+
     constructor(
-        db: DatabaseService, 
+        db: DatabaseService,
+        private utils: EmojiUtils,
         private user: UserProfile,
         private addPostService: AddPostService,
         private media: MediaObserver) {
-
     }
 
     public logValue(data) {
@@ -60,13 +100,6 @@ export class AddPostComponent implements  OnInit{
         this.postForm = new FormGroup({
             text: new FormControl('')
         })
-
-        console.log(this.postForm)
     }
-
-    public toggleEmojiKeys() {
-
-       return this.emojiKeysPanel.toggle(),  false;
-    }
-
 }
+

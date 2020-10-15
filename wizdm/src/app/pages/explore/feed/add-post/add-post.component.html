@@ -52,8 +52,9 @@
         </div>
         <form [formGroup]="postForm" fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="center end">
+
                 <mat-form-field fxFlex="1 1 auto">
-                    <wm-emoji-input formControlName="text" matEmoji></wm-emoji-input>
+                    <wm-emoji-input typein formControlName="text" matEmoji [disabled]="disabled"></wm-emoji-input>
                     <wm-icon (mousedown)="toggleEmojiKeys()" [icon]="msgs.textarea.emoji?.icon || 'insert_emoticon'"
                              class="tools"
                              inline
@@ -62,9 +63,9 @@
                 </mat-form-field>
             </div>
 
-            <mat-expansion-panel class="mat-elevation-z0">
+            <mat-expansion-panel class="mat-elevation-z0"  hideToggle>
 
-                <wm-emoji-keyboard [mode]="'web'"></wm-emoji-keyboard>
+                <wm-emoji-keyboard [favorites]="keys" [mode]="mode" (keyPressed)="!disabled && typein($event)"></wm-emoji-keyboard>
 
             </mat-expansion-panel>
 
