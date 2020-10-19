@@ -6,6 +6,7 @@ $wm-avatar-size: 48px !default;
   margin-top: 50%;
   //border: 1px solid purple;
 }
+
 .wm-addpost {
   position: relative;
   //border: 1px solid purple;
@@ -16,16 +17,19 @@ $wm-avatar-size: 48px !default;
     margin-top: 100px;
     //border: 1px solid purple;
   }
+
   .mob-container {
     max-width: 100%;
 
     //border: 1px solid purple;
   }
-  .mat-card{
+
+  .mat-card {
     width: 600px;
     height: 80px;
     //border: 1px solid purple;
   }
+
   .mob-mat-card {
     width: 460px;
     //height: 20px;
@@ -78,6 +82,10 @@ $wm-avatar-size: 48px !default;
   .dlg-header__close {
     wm-icon {
       cursor: pointer;
+    }
+
+    .mat-button.mat-primary, .mat-icon-button.mat-primary, .mat-stroked-button.mat-primary {
+      width: 100%;
     }
   }
 

@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AddPostComponent } from './add-post.component';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { AvatarModule } from '@wizdm/elements/avatar';
@@ -18,6 +17,7 @@ import { TextareaModule } from 'app/utils/textarea';
 import { ContentModule } from '@wizdm/content';
 import {MatListModule} from '@angular/material/list';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { AddPostComponent } from './add-post.component';
 
 
 @NgModule({

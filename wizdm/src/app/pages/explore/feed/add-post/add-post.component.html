@@ -7,13 +7,11 @@
             <mat-list>
                 <mat-list-item>
                     <div mat-card-avatar>
-                        <wm-avatar
-                                [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
-                        </wm-avatar>
+                        <wm-avatar  [color]="'primary'" [src]="userImage"></wm-avatar>
                     </div>
                     <div class="post-modal-entry" fxFlex="100" fxLayout="row" fxLayoutAlign="start stretch">
             <span (click)="postdialog.open()" class="post-entry" fxLayoutAlign="center">
-              <p>What's on your mind, Paul?</p>
+              <p>What's on your mind, {{userFirstName}}?</p>
 
             </span>
                     </div>
@@ -41,38 +39,48 @@
         </mat-divider>
         <div class="dlg-subheader" fxLayout="row" fxLayoutGap="10px">
             <div class="dlg-avatar">
-                <wm-avatar
-                        [src]="'https://images.unsplash.com/photo-1421526053088-51b69c8a8d59?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=7f00bcff27bf4fd8062358af0c28c653&auto=format&fit=crop&w=1946&q=80'">
-                </wm-avatar>
+                <wm-avatar  [color]="'primary'" [src]="userImage"></wm-avatar>
             </div>
             <div fxLayout="column">
-                <a class="mat-small" href="#">Ayo Paul </a>
+                <a class="mat-small" href="#">{{userFirstName}} </a>
                 <a class="mat-small" href="#">Public</a>
             </div>
         </div>
         <form [formGroup]="postForm" fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="center end">
-
-                <mat-form-field fxFlex="1 1 auto">
-                    <wm-emoji-input typein formControlName="text" matEmoji [disabled]="disabled"></wm-emoji-input>
-                    <wm-icon (mousedown)="toggleEmojiKeys()" [icon]="msgs.textarea.emoji?.icon || 'insert_emoticon'"
+                <mat-form-field fxFlex="1 1 auto" appearance="legacy"  *ngIf="mode === 'native'; else webMode">
+                    <textarea matInput typein formControlName="text" [disabled]="disabled" cdkTextareaAutosize cdkAutosizeMinRows="1"></textarea>
+                    <wm-icon (mousedown)="!disabled && toggleEmojiKeys()" [icon]="msgs.textarea.emoji?.icon || 'insert_emoticon'"
                              class="tools"
                              inline
                              matSuffix>
                     </wm-icon>
                 </mat-form-field>
+
+                <ng-template #webMode>
+                    <mat-form-field appearance="legacy"  fxFlex="1 1 auto">
+                        <wm-emoji-input typein formControlName="text" matEmoji [disabled]="disabled"></wm-emoji-input>
+                        <wm-icon (mousedown)="!disabled && toggleEmojiKeys()" [icon]="msgs.textarea.emoji?.icon || 'insert_emoticon'"
+                                 class="tools"
+                                 inline
+                                 matSuffix>
+                        </wm-icon>
+                    </mat-form-field>
+                </ng-template>
+
             </div>
 
             <mat-expansion-panel class="mat-elevation-z0"  hideToggle>
+                <wm-emoji-keyboard [favorites]="keys" [mode]="mode" (keyPressed)="!disabled && typein($event)">
 
-                <wm-emoji-keyboard [favorites]="keys" [mode]="mode" (keyPressed)="!disabled && typein($event)"></wm-emoji-keyboard>
+                </wm-emoji-keyboard>
 
             </mat-expansion-panel>
 
             <mat-dialog-actions align="center">
                 <button [mat-dialog-close]="true" cdkFocusInitial
                         color="primary"
-                        mat-button>Add Post
+                        mat-button>Post
                 </button>
 
             </mat-dialog-actions>

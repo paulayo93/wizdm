@@ -16,7 +16,6 @@ import { HasTouchScreen } from 'app/utils/platform';
 import {EmojiUtils} from '@wizdm/emoji/utils';
 
 
-
 @Component({
     selector: 'wm-addpost',
     templateUrl: 'add-post.component.html',
@@ -70,15 +69,20 @@ export class AddPostComponent implements  OnInit{
     }
 
     public typein(key: string) {
-        this.logValue(`Log Value:  ${key}`);
         // Uses the TypeInAdapter to insert the key at the current cursor position preventing default to avoid losing focus
         return this.typeinAdapter?.typein(key), false;
     }
 
-    constructor(
-        db: DatabaseService,
-        private utils: EmojiUtils,
-        private user: UserProfile,
+    public get userImage(): string {
+        return this.user.data.photo || '';
+    }
+
+    public get userFirstName(): string {
+        let displayName = this.user.data.userName.split('-').slice().pop();
+        return displayName || this.user.data.name;
+    }
+
+    constructor(db: DatabaseService, private utils: EmojiUtils, private user: UserProfile,
         private addPostService: AddPostService,
         private media: MediaObserver) {
     }
@@ -91,7 +95,7 @@ export class AddPostComponent implements  OnInit{
      * savepost
      */
     public savePost(data: PostData) {
-
+        this.logValue(this.postForm.controls.text);
         this.addPostService.savePost(data);
     }
 
