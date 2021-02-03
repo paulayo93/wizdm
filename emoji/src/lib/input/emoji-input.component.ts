@@ -68,8 +68,8 @@ export class EmojiInput extends EmojiText implements OnDestroy {
   @Input() placeholder: string;
 
   /** The input value */
-  get value(): string { return this._value || ''; }
-  @Input() set value(value: string) {
+  get inputValue(): string { return this._value || ''; }
+  @Input() set inputValue(value: string) {
     // Avoids unecessary changes
     if(value === this.value) { return; }
     // Restarts the undo history whenevevr the input value changes.
